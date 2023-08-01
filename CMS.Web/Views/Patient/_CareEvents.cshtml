@@ -1,0 +1,27 @@
+@model Patient
+
+<table class="table table-striped">
+    <thead>
+        <tr>            
+            <th>Date</th>
+            <th>Carer</th>
+            <th>Issues</th>            
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model.CareEvents)
+        {
+            <tr>
+                <td>@e.DateTimeOfEvent</td>
+                <td>@e.Carer.Name</td>
+                <td>@e.Issues</td>              
+                <td>
+                    <a asp-roles="manager" asp-controller="PatientCareEvent" asp-action="Delete" asp-route-id="@e.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

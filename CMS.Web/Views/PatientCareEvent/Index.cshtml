@@ -26,7 +26,7 @@
     <tbody>
         @foreach(var pce in Model) {
             <tr>
-                <td>@pce.Id</td> <td>@pce.DateTimeOfEvent.ToShortDateString()</td><td>@pce.CarerId</td> <td>@pce.PatientId</td>
+                <td>@pce.Id</td> <td>@pce.DateTimeOfEvent.ToShortDateString()</td><td>@pce.UserId</td> <td>@pce.PatientId</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@pce.Id">
                         <i class="material-icons" title="View CareEvent">View</i>

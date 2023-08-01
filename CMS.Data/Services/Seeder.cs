@@ -349,25 +349,6 @@ namespace CMS.Data.Services
             svc.AddPatientCondition(p1.Id, con2.Id, "Moderate", DateTime.Now);
 
 
-            // =============== Patient Care Event ==================
-            var pce1 = svc.AddPatientCareEvent(new PatientCareEvent
-            {
-                DateTimeOfEvent = new DateTime(2023, 03, 04),
-                CarePlan = "See Specific tasks for each call.",
-                Issues = "Nothing to report",
-                PatientId = p1.Id,
-                CarerId = c1.Id
-            });
-
-            var pce2 = svc.AddPatientCareEvent(new PatientCareEvent
-            {
-                DateTimeOfEvent = new DateTime(2023, 03, 04),
-                CarePlan = "See Specific tasks for each call.",
-                Issues = "Nothing to report",
-                PatientId = p2.Id,
-                CarerId = c2.Id
-            });
-
 
             // ===========  add family ==============
             var m1 = svc.AddMember(new User
@@ -402,139 +383,131 @@ namespace CMS.Data.Services
                            
             });
 
-            // ============== APPOINTMENTS =================
+            // ============== Schedule CareEvents APPOINTMENTS =================
 
             // Appointments patient 1 carer 1
-            var ap1 = svc.AddAppointment(new Appointment
+            var ap1 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                DateTime = new DateTime(2023, 05, 28, 8,0,0),               
-                PatientId = p1.Id,
-                UserId = c1.Id,    
-            });
-            var ap2 = svc.AddAppointment(new Appointment
-            {
-                DateTime = new DateTime(2023, 05, 28, 12,0,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 12,0,0),
                 PatientId = p1.Id,               
                 UserId = c1.Id,
             });
-            var ap3 = svc.AddAppointment(new Appointment
+            var ap3 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                DateTime = new DateTime(2023, 05, 28, 20,30,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 20,30,0),
                 PatientId = p1.Id,              
                 UserId = c1.Id,
             });
 
-            // Appointments patient 2 carer 2
-            var ap4 = svc.AddAppointment(new Appointment
+            // // Appointments patient 2 carer 2
+            var ap4 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {  
-                DateTime = new DateTime(2023, 05, 28, 10,30,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 10,30,0),
                 PatientId = p2.Id,
                 UserId = c2.Id,
             });
-            var ap5 = svc.AddAppointment(new Appointment
+            var ap5 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                DateTime = new DateTime(2023, 05, 28, 12,45,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 12,45,0),
                 PatientId = p2.Id,
                 UserId = c2.Id,
             });           
-            var ap6 = svc.AddAppointment(new Appointment
+            var ap6 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {    
-                DateTime = new DateTime(2023, 05, 28, 18,0,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 18,0,0),
                 PatientId = p2.Id,
                 UserId = c2.Id,
-
             });
             
-            // Appointments patient 3 carer 2
-            var ap7 = svc.AddAppointment(new Appointment
+            // // Appointments patient 3 carer 2
+            var ap7 = svc.SchedulePatientCareEvent(new PatientCareEvent
             { 
-                DateTime = new DateTime(2023, 05, 28, 8,0,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 8,0,0),
                 PatientId = p3.Id,
                 UserId = c2.Id,
             });
             
-            var ap8 = svc.AddAppointment(new Appointment
+            var ap8 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {  
-                DateTime = new DateTime(2023, 05, 28, 15,30,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 15,30,0),
                 PatientId = p3.Id,
                 UserId = c2.Id,
             });
             
             // Appointments patient 4 carer 3
-            var ap9 = svc.AddAppointment(new Appointment
+            var ap9 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {   
-                DateTime = new DateTime(2023, 05, 28, 7,30,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 7,30,0),
                 PatientId = p4.Id,
                 UserId = c3.Id,
-
             });            
-            var ap10 = svc.AddAppointment(new Appointment
+            var ap10 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {  
-                DateTime = new DateTime(2023, 05, 28, 12,45,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 12,45,0),
                 PatientId = p4.Id,
                 UserId = c3.Id,
             });            
-            var ap11 = svc.AddAppointment(new Appointment
+            var ap11 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {   
-                DateTime = new DateTime(2023, 05, 28, 17,50,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 17,50,0),
                 PatientId = p4.Id,
                 UserId = c3.Id,
             });
             
             // Appointments patient 5 carer 3
-            var ap12 = svc.AddAppointment(new Appointment
+            var ap12 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             { 
-                DateTime = new DateTime(2023, 05, 28, 6,45,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 6,45,0),
                 PatientId = p5.Id,
                 UserId = c2.Id,
             });
-            var ap13 = svc.AddAppointment(new Appointment
+            var ap13 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {   
-                DateTime = new DateTime(2023, 05, 28, 11,0,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 11,0,0),
                 PatientId = p5.Id,
                 UserId = c3.Id,
             });
             
-            var ap14= svc.AddAppointment(new Appointment
+            var ap14= svc.SchedulePatientCareEvent(new PatientCareEvent        
             {   
-                DateTime = new DateTime(2023, 05, 28, 22,0,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 22,0,0),
                 PatientId = p5.Id,
                 UserId = c3.Id,
             });
             
             // Appointments patient 6 carer 1
-            var ap15 = svc.AddAppointment(new Appointment
+            var ap15 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {  
-                DateTime = new DateTime(2023, 05, 28, 7,50,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 7,50,0),
                 PatientId = p6.Id,
                 UserId = c1.Id,
             });           
-            var ap16 = svc.AddAppointment(new Appointment
+            var ap16 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {      
-                DateTime = new DateTime(2023, 05, 28, 11,0,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 11,0,0),
                 PatientId = p6.Id,
                 UserId = c1.Id,
             });            
-            var ap17 = svc.AddAppointment(new Appointment
+            var ap17 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {
-                DateTime = new DateTime(2023, 05, 28, 14,45,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 14,45,0),
                 PatientId = p6.Id,
                 UserId = c1.Id,
             });              
-            var ap18 = svc.AddAppointment(new Appointment
+            var ap18 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {     
-                DateTime = new DateTime(2023, 05, 28,20,45,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28,20,45,0),
                 PatientId = p6.Id,
                 UserId = c1.Id,
             });
 
-            // Appointments patient 6 carer 1
-            var ap19 = svc.AddAppointment(new Appointment
+            // Appointments patient 7 manager
+            var ap19 = svc.SchedulePatientCareEvent(new PatientCareEvent        
             {  
-                DateTime = new DateTime(2023, 05, 28, 7,50,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 7,50,0),
                 PatientId = p7.Id,
                 UserId = manager.Id,
-            });      
+            });   
 
     
             // add member 1 to patient 1 family

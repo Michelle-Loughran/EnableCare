@@ -21,15 +21,7 @@ namespace CMS.Data.Services
         string ForgotPassword(string email);
         User ResetPassword(string email, string token, string password);
         IList<string> GetValidPasswordResetTokens();
-        //======================Rota Management==================================
-        IList<Appointment> GetAllAppointments(string order = null);
-        Appointment GetAppointmentById(int id);
-        IList<Appointment>  GetUserAppointments(int userId);
-        // IList<Appointment> GetAppointmentsForUser(int id, string search);
-        IList<Appointment> SearchAppointments(string query);
-        Appointment AddAppointment(Appointment md);
-        bool DeleteAppointment(int id);
-        Appointment UpdateAppointment(Appointment updated);
+
         //======================Patient Management==================================
         IList<Patient> GetAllPatients(string order = null);
 
@@ -51,9 +43,15 @@ namespace CMS.Data.Services
         User UpdateCarer(User updated);
 
         //======================CareEvent Management==================================
+        
         IList<PatientCareEvent> GetAllPatientCareEvents(string order=null);
+
+        IList<PatientCareEvent> GetScheduledPatientCareEventsForUser(int userId);
+
         PatientCareEvent GetPatientCareEventById(int id);
-        PatientCareEvent AddPatientCareEvent(PatientCareEvent ce);
+        PatientCareEvent SchedulePatientCareEvent(PatientCareEvent ce);
+        PatientCareEvent CompletePatientCareEvent(PatientCareEvent ce);
+        
         bool DeletePatientCareEvent(int careEventId);
         PatientCareEvent UpdatePatientCareEvent(PatientCareEvent updated);
 

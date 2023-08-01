@@ -22,12 +22,27 @@ namespace CMS.Web.Controllers
             svc = new PatientServiceDb();
         }
 
+
+        [Authorize(Roles="admin, manager")]
         public IActionResult Index()
         {
             // load patientcare-events using service and pass to view
+            
             var pce = svc.GetAllPatientCareEvents();
 
             return View(pce);
+        }
+
+        [Authorize(Roles="carer, manager")]
+
+        public IActionResult Scheduled()
+        {
+            // user will be a manager or a carer
+            var userId = User.GetSignedInUserId();
+
+            var scheduled = svc.GetScheduledPatientCareEventsForUser(userId);
+            
+            return View(scheduled);
         }
 
         // GET /Patient Care Event/details/{id}
@@ -45,9 +60,9 @@ namespace CMS.Web.Controllers
             return View(pce);
         }
 
-        // GET: /patientcareevent/create/patientId   
+        // GET: /patientcareevent/schedule/patientId   
         [Authorize(Roles="carer, manager")]
-        public IActionResult Create(int patientId)
+        public IActionResult Schedule(int patientId)
         {
             var patient = svc.GetPatientById(patientId);
             if (patient is null)
@@ -58,8 +73,8 @@ namespace CMS.Web.Controllers
 
             var userId = User.GetSignedInUserId();
 
-            var carer = svc.GetCarerByUserId(userId);
-            if (carer is null)
+            var user = svc.GetCarerByUserId(userId);
+            if (user is null)
             {
                 Alert("Carer does not exist", AlertType.warning);
                 return RedirectToAction(nameof(Details), "Patient", new { Id = patientId });
@@ -70,22 +85,20 @@ namespace CMS.Web.Controllers
             {
                 Patient = patient,
                 PatientId = patient.Id,                
-                Carer = carer,
-                CarerId = carer.Id,
+                User = user,
+                UserId = user.Id,
                 CarePlan = patient.CarePlan,
-                DateTimeOfEvent = DateTime.Now,
-                Issues = "record visit activity here...",
-                
+                DateTimeOfEvent = DateTime.Now  
             };
 
             //return the new Patient care-event to the view
             return View(pce);
         }
 
-        // POST /carers/create
-        //[ValidateAntiForgeryToken]
+        // POST: /patientcareevent/schedule/patientId   
+        [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Create(int patientId, [Bind("DateTimeOfEvent, CarePlan, Issues, PatientId, CarerId")] PatientCareEvent pce)
+        public IActionResult Schedule(int patientId, [Bind("DateTimeOfEvent, CarePlan, PatientId, UserId")] PatientCareEvent pce)
         {    // Check patient care event being passed in has Id preset before adding properties
             if (pce == null)
             {
@@ -97,9 +110,9 @@ namespace CMS.Web.Controllers
             if (ModelState.IsValid)
             {
                 // call service Addpatientcareevent method using data in pce
-                svc.AddPatientCareEvent(pce);
+                svc.SchedulePatientCareEvent(pce);
 
-                Alert("Patient-care-event created successfully!", AlertType.warning);
+                Alert("Patient-care-event scheduled successfully!", AlertType.warning);
 
                 return RedirectToAction(nameof(Details), "Patient", new { Id = pce.PatientId });
             }
@@ -107,6 +120,47 @@ namespace CMS.Web.Controllers
             // redisplay the form for editing as there are validation errors
             return View(pce);
         }
+
+
+        // GET: /patientcareevent/complete/id   
+        [Authorize(Roles="carer, manager")]
+        public IActionResult Complete(int id)
+        {
+            var pce = svc.GetPatientCareEventById(id);
+            if (pce is null)
+            {
+                Alert("Scheduled Care Event does not exist", AlertType.warning);
+                return RedirectToAction(nameof(Index), "Patient");
+            }            
+
+            //return the new Patient care-event to the view
+            return View(pce);
+        }
+
+
+        // POST /patientcareevent/complete/
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult Complete(int id, [Bind("Id, DateTimeOfEvent, DateTimeCompleted, CarePlan, Issues, PatientId, UserId")] PatientCareEvent pce)
+        {    
+            // complete POST action to add patient care event to database
+            if (ModelState.IsValid)
+            {
+                // hack to set complete time here - may want to collect input in form
+                pce.DateTimeCompleted = DateTime.Now;
+
+                // call service Addpatientcareevent method using data in pce
+                svc.CompletePatientCareEvent(pce);
+
+                Alert("Patient-care-event completed successfully!", AlertType.info);
+
+                return RedirectToAction(nameof(Details), "Patient", new { Id = pce.PatientId });
+            }
+
+            // redisplay the form for editing as there are validation errors
+            return View(pce);
+        }
+
 
         // GET /PatientCareEvent/Delete/{id}
         public IActionResult Delete(int id)

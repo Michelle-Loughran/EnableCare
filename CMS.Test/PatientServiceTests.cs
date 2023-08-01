@@ -620,9 +620,9 @@ public class PatientServiceTests
         });
 
         // act
-        var pce = svc.AddPatientCareEvent( new PatientCareEvent {
+        var pce = svc.SchedulePatientCareEvent( new PatientCareEvent {
             DateTimeOfEvent =  new DateTime(2023, 06, 1), CarePlan = "CarePlan", Issues = "Nothing to report",
-             PatientId = p.Id, CarerId= c.Id
+             PatientId = p.Id, UserId= c.Id
         });
 
         Assert.NotNull(p);
@@ -658,15 +658,15 @@ public class PatientServiceTests
             // ....
         });
         
-        var pce1 = svc.AddPatientCareEvent( new PatientCareEvent {
+        var pce1 = svc.SchedulePatientCareEvent( new PatientCareEvent {
             DateTimeOfEvent =  new DateTime(2023, 06, 1), CarePlan = "CarePlan", Issues = "Nothing to report",
-             PatientId = p.Id, CarerId= c.Id
+             PatientId = p.Id, UserId= c.Id
         });
 
         // act - create care event in past (before last care event)
-        var pce2 = svc.AddPatientCareEvent( new PatientCareEvent {
+        var pce2 = svc.SchedulePatientCareEvent( new PatientCareEvent {
             DateTimeOfEvent =  new DateTime(2023, 05, 1), CarePlan = "CarePlan", Issues = "Nothing to report",
-             PatientId = p.Id, CarerId= c.Id
+             PatientId = p.Id, UserId= c.Id
         });
         Assert.NotNull(p);
         Assert.NotNull(c);
@@ -718,9 +718,9 @@ public class PatientServiceTests
             // ....
         });
 
-        var pce = svc.AddPatientCareEvent( new PatientCareEvent {
+        var pce = svc.SchedulePatientCareEvent( new PatientCareEvent {
             DateTimeOfEvent =  new DateTime(2023, 06, 1), CarePlan = "CarePlan", Issues = "Nothing to report",
-             PatientId = p.Id, CarerId= c.Id
+             PatientId = p.Id, UserId= c.Id
         });
         var gpce = svc.GetPatientCareEventById(pce.Id);
         // assert
@@ -758,9 +758,9 @@ public class PatientServiceTests
             // ....
         });
 
-        var pce = svc.AddPatientCareEvent( new PatientCareEvent {
+        var pce = svc.SchedulePatientCareEvent( new PatientCareEvent {
             DateTimeOfEvent =  new DateTime(2023, 06, 1), CarePlan = "CarePlan", Issues = "Nothing to report",
-             PatientId = p.Id, CarerId= c.Id
+             PatientId = p.Id, UserId= c.Id
         });
 
         // act
@@ -816,11 +816,11 @@ public class PatientServiceTests
             // ....
         });
         
-        var pce = svc.AddPatientCareEvent( new PatientCareEvent {
+        var pce = svc.SchedulePatientCareEvent( new PatientCareEvent {
             DateTimeOfEvent =  new DateTime(2023, 06, 1), 
             CarePlan = "CarePlan", Issues = "Nothing to report",
             PatientId = p.Id, 
-            CarerId= c.Id
+            UserId= c.Id
         });
 
         // act 
@@ -836,6 +836,11 @@ public class PatientServiceTests
 
     }
 
+
+    // TODO - Needs tests to Complete ScheduledPatientCareEvents
+
+
+    
     //  =====================Test Patient Condition Management================================== 
 
     [Fact]
@@ -992,80 +997,6 @@ public class PatientServiceTests
       
     }
 
-    // ======== Appointment tests ===========
-    [Fact]
-    public void TestAddAppointment_WhenValid_ShouldBeAdded()
-    {
-        // arrange
-        var p = svc.AddPatient(Factory.MakePatient());
-        var c = svc.AddCarer(Factory.MakeCarer());
-        
-        // act
-        var a = svc.AddAppointment(new Appointment {
-            DateTime = new DateTime(2023,10,10,8,0,0),
-            PatientId = p.Id,
-            UserId =  c.Id
-        });
-
-        // assert 
-        Assert.NotNull(a);
-    }
-
-    [Fact]
-    public void TestAddAppointment_WhenDuplicate_ShouldNotBeAdded()
-    {
-        // arrange
-        var p = svc.AddPatient(Factory.MakePatient());
-        var c = svc.AddCarer(Factory.MakeCarer());
-        
-        var a = svc.AddAppointment(new Appointment {
-            DateTime = new DateTime(2023,1,1,8,0,0),
-            PatientId = p.Id,
-            UserId =  c.Id
-        });
-
-        // act
-        var d = svc.AddAppointment(new Appointment {
-            DateTime = new DateTime(2023,1,1,8,0,0),
-            PatientId = p.Id,
-            UserId =  c.Id
-        });
-
-        // assert 
-        Assert.NotNull(a);
-        Assert.Null(d);
-    }
-
-    [Fact]
-    public void TestUpdateAppointment_WhenDuplicate_ShouldNotBeUpdated()
-    {
-        // arrange
-        var p1 = svc.AddPatient(Factory.MakePatient());
-        
-        var c1 = svc.AddCarer(Factory.MakeCarer());
-        
-        var a1 = svc.AddAppointment(new Appointment {
-            DateTime = new DateTime(2023,1,1,8,0,0),
-            PatientId = p1.Id,
-            UserId =  c1.Id
-        });
-        var a2 = svc.AddAppointment(new Appointment {
-            DateTime = new DateTime(2023,1,1,10,0,0),
-            PatientId = p1.Id,
-            UserId =  c1.Id
-        });
-
-        // act - duplicate time
-        a2.DateTime = new DateTime(2023,1,1,8,0,0);
-       
-        var u = svc.UpdateAppointment(a2);
-        
-        // assert
-        Assert.NotNull(a1);
-        Assert.NotNull(a2);
-        Assert.Null(u);
-
-    }
 } 
 
 

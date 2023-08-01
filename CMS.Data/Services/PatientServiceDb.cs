@@ -264,7 +264,7 @@ public class PatientServiceDb : IPatientService
                     .Include(p => p.PatientConditions)
                     .ThenInclude(pc => pc.Condition)
                     .Include(p => p.CareEvents)
-                    .ThenInclude(ce => ce.Carer)
+                    .ThenInclude(ce => ce.User)
                     .FirstOrDefault(p => p.Id == id);
     }
 
@@ -601,12 +601,21 @@ public class PatientServiceDb : IPatientService
     public PatientCareEvent GetPatientCareEventById(int id)
     {
         return db.PatientCareEvents
-                 .Include(e => e.Carer)
+                 .Include(e => e.User)
                  .Include(e => e.Patient)
                  .FirstOrDefault(pce => pce.Id == id);
     }
 
-    public PatientCareEvent AddPatientCareEvent(PatientCareEvent ce)
+     public IList<PatientCareEvent> GetScheduledPatientCareEventsForUser(int id)
+    {
+        return db.PatientCareEvents
+                 .Include(e => e.User)
+                 .Include(e => e.Patient)
+                 .Where(pce => pce.UserId == id && pce.DateTimeCompleted == DateTime.MinValue)
+                 .ToList();
+    }
+
+    public PatientCareEvent SchedulePatientCareEvent(PatientCareEvent ce)
     {
         var last = db.PatientCareEvents.Where(pce => pce.PatientId == ce.PatientId)
                                        .OrderByDescending(ce => ce.DateTimeOfEvent)
@@ -617,7 +626,7 @@ public class PatientServiceDb : IPatientService
             return null; // Careevent  cannot be added as it already exists
         }
         var patient = GetPatientById(ce.PatientId);
-        var carer = GetCarerById(ce.CarerId);
+        var carer = GetCarerById(ce.UserId);
 
 
         if (patient is null || carer is null)
@@ -628,18 +637,32 @@ public class PatientServiceDb : IPatientService
         var pce = new PatientCareEvent
         {
             DateTimeOfEvent = ce.DateTimeOfEvent,
-            CarePlan = ce.CarePlan,
-            Issues = ce.Issues,
+            CarePlan = ce.CarePlan,           
             PatientId = ce.PatientId,
-            CarerId = ce.CarerId
+            UserId = ce.UserId
 
-            // check for missing attributes
+            // Issues and DateTimeCompleted are not set at this time
         };
 
         //add pce to database
         db.PatientCareEvents.Add(pce);
         db.SaveChanges();
         return pce;
+    }
+
+    public PatientCareEvent CompletePatientCareEvent(PatientCareEvent ce)
+    {
+        var careevent = GetPatientCareEventById(ce.Id);
+        if (careevent is null)
+        {
+            return null; // Careevent  does not exist
+        }
+
+        careevent.Issues = ce.Issues;
+        careevent.DateTimeCompleted = ce.DateTimeCompleted;
+       
+        db.SaveChanges();
+        return careevent;
     }
 
 
@@ -665,7 +688,7 @@ public class PatientServiceDb : IPatientService
         }
         // update patient care event      
         patientCareEvent.PatientId = updated.PatientId;
-        patientCareEvent.CarerId = updated.CarerId;
+        patientCareEvent.UserId = updated.UserId;
         patientCareEvent.CarePlan = updated.CarePlan;
         patientCareEvent.Issues = updated.Issues;
         patientCareEvent.DateTimeOfEvent = updated.DateTimeOfEvent;
@@ -889,101 +912,5 @@ public class PatientServiceDb : IPatientService
         db.SaveChanges();
         return true;
     }
-
-    //======================Rota Management==================================
-
-    public IList<Appointment> GetAllAppointments(string order = null)
-    {
-        return db.Appointments
-                .Include(a => a.User)
-                .Include(a => a.Patient)
-                .ToList();
-    }
-    public Appointment GetAppointmentById(int id)
-    {
-       return db.Appointments
-                 .Include(a => a.User)
-                 .Include(a => a.Patient)
-                 .ThenInclude(p => p.PatientConditions)                 
-                 .FirstOrDefault(a => a.Id == id);
-    }
-
-    public IList<Appointment> GetUserAppointments(int userId)
-    {
-        // AMC - need to include user and patient in appointments returned as you are referring to these in the views
-        return db.Appointments           
-                 .Include(a => a.User)
-                 .Include(a => a.Patient)
-                 .Where(a => a.UserId == userId)
-                 .ToList();
-    }
-    public IList<Appointment> SearchAppointments(string query)
-    {
-        return new List<Appointment>();
-    }
-    public Appointment AddAppointment(Appointment md)
-    {
-        // check if appointment exists        
-        var found = db.Appointments
-                       .FirstOrDefault( a => a.PatientId == md.PatientId && a.DateTime == md.DateTime);
-        if (found != null)
-        {
-            return null; // appointment cannot be added as it already exists
-        }
-
-        // update the information for the patient and save
-        var appointment = new Appointment
-        {
-            DateTime = md.DateTime,
-            UserId = md.UserId, 
-            PatientId = md.PatientId, 
-        };
-       
-        db.Appointments.Add(appointment);
-        db.SaveChanges();
-        return appointment;
-    }
-
-    public bool DeleteAppointment(int id)
-    {
-        var d = GetAppointmentById(id);
-        if (d == null)
-        {
-            return false;
-        }
-        db.Appointments.Remove(d);
-        db.SaveChanges();
-        return true;
-    }
-    public Appointment UpdateAppointment(Appointment updated)
-    {
-        // check for duplicate appointment - same patient and time
-        var duplicate = db.Appointments.FirstOrDefault(
-            a => a.PatientId == updated.PatientId &&
-                 a.DateTime == updated.DateTime &&
-                 a.Id != updated.Id            
-        );
-        if (duplicate != null)
-        {
-            return null;
-        }
-       
-        // find appointment
-        var a = GetAppointmentById(updated.Id);
-        if (a == null)
-        {
-            return null;
-        }
-        // update appointment
-        a.Id = updated.Id;
-        a.DateTime = updated.DateTime;
-        a.PatientId = updated.PatientId;
-        a.UserId = updated.UserId;
-
-        db.SaveChanges();
-        return a;
-    }
-
-
 }
 

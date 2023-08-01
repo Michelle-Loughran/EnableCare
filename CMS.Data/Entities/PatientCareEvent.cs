@@ -9,6 +9,8 @@ public class PatientCareEvent
 
     public DateTime DateTimeOfEvent { get; set; } = DateTime.Now;
 
+    public DateTime? DateTimeCompleted { get; set; } = null; //DateTime.MinValue;
+
     // copy of Patient.CarePlan made when Event created
     public string CarePlan { get; set; } 
 

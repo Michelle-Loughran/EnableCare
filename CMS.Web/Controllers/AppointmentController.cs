@@ -37,19 +37,19 @@ namespace CMS.Web.Controllers
         }
 
         // GET /patient/details/{id}
-        public IActionResult Details(int id)
+         public IActionResult Details(int id)
         {
-            // retrieve the patient with specified id from the service
-            var patient = svc.GetPatientById(id);
+            // retrieve the appointment with specified id from the service
+            var appointment = svc.GetAppointmentById(id);
 
-            // check if patient is null and alert/redirect 
-            if (patient == null)
+            // check if appointment is null and alert/redirect 
+            if (appointment == null)
             {
-                Alert("Patient Does not Exist", AlertType.warning);
+                Alert("Appointment Does not Exist", AlertType.warning);
                 return RedirectToAction(nameof(Index));
             }
-
-            return View(patient);
+            
+            return View(appointment);
         }
     }
 }

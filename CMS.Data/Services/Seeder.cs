@@ -15,7 +15,7 @@ namespace CMS.Data.Services
             svc.Initialise();
 
             // add admin users
-            svc.AddUser( 
+            var admin = svc.AddUser( 
                 new User {
                     Firstname = "The",
                     Surname = "Admin",                 
@@ -25,7 +25,7 @@ namespace CMS.Data.Services
                 }
             );
 
-            svc.AddUser( 
+            var manager = svc.AddUser( 
                 new User {
                     Firstname = "The",
                     Surname = "Manager",
@@ -409,19 +409,19 @@ namespace CMS.Data.Services
             {
                 DateTime = new DateTime(2023, 05, 28, 8,0,0),               
                 PatientId = p1.Id,
-                CarerId = c1.Id,    
+                UserId = c1.Id,    
             });
             var ap2 = svc.AddAppointment(new Appointment
             {
                 DateTime = new DateTime(2023, 05, 28, 12,0,0),
                 PatientId = p1.Id,               
-                CarerId = c1.Id,
+                UserId = c1.Id,
             });
             var ap3 = svc.AddAppointment(new Appointment
             {
                 DateTime = new DateTime(2023, 05, 28, 20,30,0),
                 PatientId = p1.Id,              
-                CarerId = c1.Id,
+                UserId = c1.Id,
             });
 
             // Appointments patient 2 carer 2
@@ -429,19 +429,19 @@ namespace CMS.Data.Services
             {  
                 DateTime = new DateTime(2023, 05, 28, 10,30,0),
                 PatientId = p2.Id,
-                CarerId = c2.Id,
+                UserId = c2.Id,
             });
             var ap5 = svc.AddAppointment(new Appointment
             {
                 DateTime = new DateTime(2023, 05, 28, 12,45,0),
                 PatientId = p2.Id,
-                CarerId = c2.Id,
+                UserId = c2.Id,
             });           
             var ap6 = svc.AddAppointment(new Appointment
             {    
                 DateTime = new DateTime(2023, 05, 28, 18,0,0),
                 PatientId = p2.Id,
-                CarerId = c2.Id,
+                UserId = c2.Id,
 
             });
             
@@ -450,14 +450,14 @@ namespace CMS.Data.Services
             { 
                 DateTime = new DateTime(2023, 05, 28, 8,0,0),
                 PatientId = p3.Id,
-                CarerId = c2.Id,
+                UserId = c2.Id,
             });
             
             var ap8 = svc.AddAppointment(new Appointment
             {  
                 DateTime = new DateTime(2023, 05, 28, 15,30,0),
                 PatientId = p3.Id,
-                CarerId = c2.Id,
+                UserId = c2.Id,
             });
             
             // Appointments patient 4 carer 3
@@ -465,20 +465,20 @@ namespace CMS.Data.Services
             {   
                 DateTime = new DateTime(2023, 05, 28, 7,30,0),
                 PatientId = p4.Id,
-                CarerId = c3.Id,
+                UserId = c3.Id,
 
             });            
             var ap10 = svc.AddAppointment(new Appointment
             {  
                 DateTime = new DateTime(2023, 05, 28, 12,45,0),
                 PatientId = p4.Id,
-                CarerId = c3.Id,
+                UserId = c3.Id,
             });            
             var ap11 = svc.AddAppointment(new Appointment
             {   
                 DateTime = new DateTime(2023, 05, 28, 17,50,0),
                 PatientId = p4.Id,
-                CarerId = c3.Id,
+                UserId = c3.Id,
             });
             
             // Appointments patient 5 carer 3
@@ -486,20 +486,20 @@ namespace CMS.Data.Services
             { 
                 DateTime = new DateTime(2023, 05, 28, 6,45,0),
                 PatientId = p5.Id,
-                CarerId = c2.Id,
+                UserId = c2.Id,
             });
             var ap13 = svc.AddAppointment(new Appointment
             {   
                 DateTime = new DateTime(2023, 05, 28, 11,0,0),
                 PatientId = p5.Id,
-                CarerId = c3.Id,
+                UserId = c3.Id,
             });
             
             var ap14= svc.AddAppointment(new Appointment
             {   
                 DateTime = new DateTime(2023, 05, 28, 22,0,0),
                 PatientId = p5.Id,
-                CarerId = c3.Id,
+                UserId = c3.Id,
             });
             
             // Appointments patient 6 carer 1
@@ -507,26 +507,34 @@ namespace CMS.Data.Services
             {  
                 DateTime = new DateTime(2023, 05, 28, 7,50,0),
                 PatientId = p6.Id,
-                CarerId = c1.Id,
+                UserId = c1.Id,
             });           
             var ap16 = svc.AddAppointment(new Appointment
             {      
                 DateTime = new DateTime(2023, 05, 28, 11,0,0),
                 PatientId = p6.Id,
-                CarerId = c1.Id,
+                UserId = c1.Id,
             });            
             var ap17 = svc.AddAppointment(new Appointment
             {
                 DateTime = new DateTime(2023, 05, 28, 14,45,0),
                 PatientId = p6.Id,
-                CarerId = c1.Id,
+                UserId = c1.Id,
             });              
             var ap18 = svc.AddAppointment(new Appointment
             {     
                 DateTime = new DateTime(2023, 05, 28,20,45,0),
                 PatientId = p6.Id,
-                CarerId = c1.Id,
+                UserId = c1.Id,
             });
+
+            // Appointments patient 6 carer 1
+            var ap19 = svc.AddAppointment(new Appointment
+            {  
+                DateTime = new DateTime(2023, 05, 28, 7,50,0),
+                PatientId = p7.Id,
+                UserId = manager.Id,
+            });      
 
     
             // add member 1 to patient 1 family

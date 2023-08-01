@@ -32,12 +32,15 @@
             <tr>
                 <td>@a.Id</td>
                 <td>@a.DateTime</td>               
-                <td>@a.Carer.Name</td>
+                <td>@a.User.Name</td>
                 <td>@a.Patient.Name</td> 
 
                 <td class="d-flex gap-1">      
                         <a asp-action="Details" asp-route-id="@a.Id">
                             <i class="bi bi-info-circle" title="View Appointment"></i>
+                        </a> 
+                        <a asp-controller="Patient" asp-action="Details" asp-route-id="@a.PatientId">
+                            <i class="bi bi-eye" title="View Patient"></i>
                         </a> 
              
                         <a asp-roles="manager" asp-action="Edit" asp-route-id="@a.Id">

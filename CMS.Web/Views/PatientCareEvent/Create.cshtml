@@ -8,10 +8,19 @@
     </ol>
 </nav>
 <div class="card rounded shadow p-4">
-    <h3>Add CarePlan Event for @Model.Patient.Name</h3>
+   
+   <div class="d-flex justify-content-between mb-3">
+        <h3>@Model.Patient.Name <span>Care Event</span></h3>
+        <h3>Carer: @Model.Carer.Name</h3>
+   </div>
 
-    <h5>Carer: @Model.Carer.Name</h5>
 
+    <h5>Care Plan</h5>
+    <div>
+        @Model.CarePlan
+    </div>
+
+    <h5 class="mt-3">Visit Details</h5>
     <form asp-action="Create" asp-route-id="@Model.PatientId">
         
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -23,7 +32,7 @@
          <div class="row mt-3">
 
             <div class="col">
-                <label asp-for="Issues" class="form-label"></label>
+              
                 <textarea rows="6" asp-for="Issues" class="form-control" ></textarea>
                 <span asp-validation-for="Issues" class="text-danger"></span>
             </div>

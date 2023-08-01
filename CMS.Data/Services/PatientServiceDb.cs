@@ -385,7 +385,7 @@ public class PatientServiceDb : IPatientService
     public User GetCarerByUserId(int id)
     {
         return db.Users
-                 .Where(u => u.Role == Role.carer)
+                 .Where(u => u.Role == Role.carer || u.Role == Role.manager)
                  .FirstOrDefault(u => u.Id == id);
     }
 
@@ -895,23 +895,27 @@ public class PatientServiceDb : IPatientService
     public IList<Appointment> GetAllAppointments(string order = null)
     {
         return db.Appointments
-                .Include(a => a.Carer)
+                .Include(a => a.User)
                 .Include(a => a.Patient)
                 .ToList();
     }
     public Appointment GetAppointmentById(int id)
     {
-        return db.Appointments.FirstOrDefault(a => a.Id == id);
+       return db.Appointments
+                 .Include(a => a.User)
+                 .Include(a => a.Patient)
+                 .ThenInclude(p => p.PatientConditions)                 
+                 .FirstOrDefault(a => a.Id == id);
     }
 
-    public IList<Appointment> GetUserAppointments(int carerId)
+    public IList<Appointment> GetUserAppointments(int userId)
     {
         // AMC - need to include user and patient in appointments returned as you are referring to these in the views
-        return db.Appointments
-            .Where(a => a.CarerId == carerId)
-            .Include(a => a.Carer)
-            .Include(a => a.Patient)
-            .ToList();
+        return db.Appointments           
+                 .Include(a => a.User)
+                 .Include(a => a.Patient)
+                 .Where(a => a.UserId == userId)
+                 .ToList();
     }
     public IList<Appointment> SearchAppointments(string query)
     {
@@ -931,7 +935,7 @@ public class PatientServiceDb : IPatientService
         var appointment = new Appointment
         {
             DateTime = md.DateTime,
-            CarerId = md.CarerId, 
+            UserId = md.UserId, 
             PatientId = md.PatientId, 
         };
        
@@ -974,7 +978,7 @@ public class PatientServiceDb : IPatientService
         a.Id = updated.Id;
         a.DateTime = updated.DateTime;
         a.PatientId = updated.PatientId;
-        a.CarerId = updated.CarerId;
+        a.UserId = updated.UserId;
 
         db.SaveChanges();
         return a;

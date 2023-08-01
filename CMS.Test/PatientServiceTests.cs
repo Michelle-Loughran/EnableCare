@@ -1002,9 +1002,9 @@ public class PatientServiceTests
         
         // act
         var a = svc.AddAppointment(new Appointment {
-            DateTime = new DateTime(10,10,2023,8,0,0),
+            DateTime = new DateTime(2023,10,10,8,0,0),
             PatientId = p.Id,
-            CarerId =  c.Id
+            UserId =  c.Id
         });
 
         // assert 
@@ -1021,14 +1021,14 @@ public class PatientServiceTests
         var a = svc.AddAppointment(new Appointment {
             DateTime = new DateTime(2023,1,1,8,0,0),
             PatientId = p.Id,
-            CarerId =  c.Id
+            UserId =  c.Id
         });
 
         // act
         var d = svc.AddAppointment(new Appointment {
             DateTime = new DateTime(2023,1,1,8,0,0),
             PatientId = p.Id,
-            CarerId =  c.Id
+            UserId =  c.Id
         });
 
         // assert 
@@ -1047,12 +1047,12 @@ public class PatientServiceTests
         var a1 = svc.AddAppointment(new Appointment {
             DateTime = new DateTime(2023,1,1,8,0,0),
             PatientId = p1.Id,
-            CarerId =  c1.Id
+            UserId =  c1.Id
         });
         var a2 = svc.AddAppointment(new Appointment {
             DateTime = new DateTime(2023,1,1,10,0,0),
             PatientId = p1.Id,
-            CarerId =  c1.Id
+            UserId =  c1.Id
         });
 
         // act - duplicate time

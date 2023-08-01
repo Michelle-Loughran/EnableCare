@@ -45,24 +45,24 @@ namespace CMS.Web.Controllers
             return View(pce);
         }
 
-        // GET: /Patient care-event/create/patientId   
-        [Authorize(Roles="carer")]
-        public IActionResult Create(int id)
+        // GET: /patientcareevent/create/patientId   
+        [Authorize(Roles="carer, manager")]
+        public IActionResult Create(int patientId)
         {
-            var patient = svc.GetPatientById(id);
+            var patient = svc.GetPatientById(patientId);
             if (patient is null)
             {
                 Alert("Patient does not exist", AlertType.warning);
                 return RedirectToAction(nameof(Index), "Patient");
             }
 
-            int userId =  User.GetSignedInUserId();
+            var userId = User.GetSignedInUserId();
 
             var carer = svc.GetCarerByUserId(userId);
             if (carer is null)
             {
                 Alert("Carer does not exist", AlertType.warning);
-                return RedirectToAction(nameof(Details), "Patient", new { Id = id });
+                return RedirectToAction(nameof(Details), "Patient", new { Id = patientId });
             }        
 
             // display blank form to create a carer
@@ -72,6 +72,7 @@ namespace CMS.Web.Controllers
                 PatientId = patient.Id,                
                 Carer = carer,
                 CarerId = carer.Id,
+                CarePlan = patient.CarePlan,
                 DateTimeOfEvent = DateTime.Now,
                 Issues = "record visit activity here...",
                 

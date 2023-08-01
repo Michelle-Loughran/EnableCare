@@ -1,0 +1,27 @@
+@model Appointment
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Appointment"
+                asp-action="Index">Appointments</a></li>
+        <li class="breadcrumb-item"><a asp-controller="Appointment"
+                asp-action="PatientDetails">Details</a></li>
+    </ol>
+</nav>
+
+<!-- display basic patient details for carer to complete appointment via a patientcareevent -->
+<partial name="_Patient" model="@Model.Patient" />
+
+<!-- action options -->
+<div class="mt-4 mb-4">
+    <a asp-controller="Appointment" asp-action="Index" class="btn btn-primary">
+        <i class="bi bi-list"></i>
+        Patient List
+    </a>
+
+    <a asp-roles="carer" asp-controller="PatientCareEvent" asp-action="Create" asp-route-patientId="@Model.PatientId"  class="btn btn-secondary">
+        <i class="bi-bag-plus-fill"></i>
+        Add Care Event
+    </a>
+</div>

@@ -373,14 +373,16 @@ public class PatientServiceDb : IPatientService
     // retrieve list of Carers with their main details
     public IList<User> GetAllCarers(string order = null)
     {
-        return db.Users.Where(u => u.Role == Role.carer)
+        return db.Users.Where(u => u.Role == Role.carer || u.Role == Role.manager)
                  .ToList();
     }
 
     // retrieve specific Carer with their main details
     public User GetCarerById(int id)
     {
-        return db.Users.Where(u => u.Role == Role.carer).FirstOrDefault(c => c.Id == id);
+        return db.Users
+                 .Where(u => u.Role == Role.carer || u.Role == Role.manager)
+                 .FirstOrDefault(c => c.Id == id);
     }
     public User GetCarerByUserId(int id)
     {
@@ -625,13 +627,13 @@ public class PatientServiceDb : IPatientService
         {
             return null; // Careevent  cannot be added as it already exists
         }
+
         var patient = GetPatientById(ce.PatientId);
-        var carer = GetCarerById(ce.UserId);
+        var user = GetCarerById(ce.UserId);
 
-
-        if (patient is null || carer is null)
+        if (patient is null || user is null)
         {
-            return null; // Careevent  cannot be added as as no such patient or carer
+            return null; // Careevent  cannot be added as as no such patient or user (carer)
         }
 
         var pce = new PatientCareEvent
@@ -640,7 +642,6 @@ public class PatientServiceDb : IPatientService
             CarePlan = ce.CarePlan,           
             PatientId = ce.PatientId,
             UserId = ce.UserId
-
             // Issues and DateTimeCompleted are not set at this time
         };
 

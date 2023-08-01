@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+
 using CMS.Data.Entities;
 using CMS.Data.Services;
-using CMS.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace CMS.Web.Controllers
 {
@@ -60,44 +55,34 @@ namespace CMS.Web.Controllers
             return View(pce);
         }
 
-        // GET: /patientcareevent/schedule/patientId   
-        [Authorize(Roles="carer, manager")]
-        public IActionResult Schedule(int patientId)
+        // GET: /patientcareevent/schedule/id   
+        [Authorize(Roles="manager")]
+        public IActionResult Schedule(int id)
         {
-            var patient = svc.GetPatientById(patientId);
+            var patient = svc.GetPatientById(id);
             if (patient is null)
             {
                 Alert("Patient does not exist", AlertType.warning);
                 return RedirectToAction(nameof(Index), "Patient");
-            }
-
-            var userId = User.GetSignedInUserId();
-
-            var user = svc.GetCarerByUserId(userId);
-            if (user is null)
-            {
-                Alert("Carer does not exist", AlertType.warning);
-                return RedirectToAction(nameof(Details), "Patient", new { Id = patientId });
-            }        
+            }     
 
             // display blank form to create a carer
             var pce = new PatientCareEvent
             {
                 Patient = patient,
-                PatientId = patient.Id,                
-                User = user,
-                UserId = user.Id,
-                CarePlan = patient.CarePlan,
-                DateTimeOfEvent = DateTime.Now  
+                PatientId = patient.Id,                              
+                CarePlan = patient.CarePlan,                
             };
 
             //return the new Patient care-event to the view
+            ViewBag.Carers = new SelectList(svc.GetAllCarers(),"Id","Name");
             return View(pce);
         }
 
         // POST: /patientcareevent/schedule/patientId   
         [ValidateAntiForgeryToken]
         [HttpPost]
+        [Authorize(Roles="manager")]
         public IActionResult Schedule(int patientId, [Bind("DateTimeOfEvent, CarePlan, PatientId, UserId")] PatientCareEvent pce)
         {    // Check patient care event being passed in has Id preset before adding properties
             if (pce == null)
@@ -133,6 +118,9 @@ namespace CMS.Web.Controllers
                 return RedirectToAction(nameof(Index), "Patient");
             }            
 
+            // set default completion to current date/time - will be updated in form
+            pce.DateTimeCompleted = DateTime.Now;
+
             //return the new Patient care-event to the view
             return View(pce);
         }
@@ -141,14 +129,12 @@ namespace CMS.Web.Controllers
         // POST /patientcareevent/complete/
         [ValidateAntiForgeryToken]
         [HttpPost]
+        [Authorize(Roles="carer, manager")]
         public IActionResult Complete(int id, [Bind("Id, DateTimeOfEvent, DateTimeCompleted, CarePlan, Issues, PatientId, UserId")] PatientCareEvent pce)
-        {    
+        {   
             // complete POST action to add patient care event to database
             if (ModelState.IsValid)
             {
-                // hack to set complete time here - may want to collect input in form
-                pce.DateTimeCompleted = DateTime.Now;
-
                 // call service Addpatientcareevent method using data in pce
                 svc.CompletePatientCareEvent(pce);
 
@@ -156,6 +142,11 @@ namespace CMS.Web.Controllers
 
                 return RedirectToAction(nameof(Details), "Patient", new { Id = pce.PatientId });
             }
+            
+            // reload patient and user into model being sent back for validation
+            var ce = svc.GetPatientCareEventById(id);
+            pce.Patient = ce.Patient;
+            pce.User = ce.User;
 
             // redisplay the form for editing as there are validation errors
             return View(pce);

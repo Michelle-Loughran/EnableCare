@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CMS.Data.Validators;
 
 namespace CMS.Data.Entities;
 
@@ -7,8 +9,11 @@ public class PatientCareEvent
 {
     public int Id { get; set; }
 
+    [DisplayName("Scheduled For")]
     public DateTime DateTimeOfEvent { get; set; } = DateTime.Now;
 
+    [DateGreaterThan("DateTimeOfEvent")]
+    [DisplayName("Completed On")]
     public DateTime DateTimeCompleted { get; set; } = DateTime.MinValue;
 
     // copy of Patient.CarePlan made when Event created

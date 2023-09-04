@@ -391,6 +391,7 @@ namespace CMS.Data.Services
                 Time = new TimeOnly( 7,0,0),
                 PatientId = p1.Id,               
                 UserId = c2.Id,
+                Name = "",
             });
             var appointment2 = svc.AddAppointment(new Appointment
             {

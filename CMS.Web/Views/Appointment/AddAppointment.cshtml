@@ -1,4 +1,4 @@
-@model Appointment
+@model CMS.Web.Models.Appointment.AppointmentViewModel
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -10,7 +10,7 @@
 <div class="card rounded shadow p-4">
    <h3>Add Appointment</h3>
     
-    <form asp-action="AddAppointment" asp-route-id="@Model.Id">
+    <form asp-action="AddAppointment">
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -30,16 +30,16 @@
 
         <div class="row mt-3">
             <div class="col">
-                <label asp-for="UserId" class="form-label"></label>
-                <select asp-for="UserId" class="form-control" asp-items=@ViewBag.Carers>
+                <label asp-for="UserName" class="form-label"></label>
+                <select asp-for="User.Name" class="form-control" asp-items=@ViewBag.Carers>
                 </select>
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <span asp-validation-for="User.Name" class="text-danger"></span>
             </div>
             <div class="col">
-                <label asp-for="PatientId" class="form-label"></label>
-                <select asp-for="PatientId" class="form-control" asp-items=@ViewBag.Patients>
+                <label asp-for="Name" class="form-label"></label>
+                <select asp-for="Patient.Name" class="form-control" asp-items=@ViewBag.Patients>
                 </select>
-                <span asp-validation-for="PatientId" class="text-danger"></span>
+                <span asp-validation-for="Patient.Name" class="text-danger"></span>
             </div>
         </div>
         

@@ -1,4 +1,4 @@
-@model Appointment
+@model CMS.Web.Models.Appointment.AppointmentViewModel
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -24,10 +24,11 @@
             </div>
 
         y<div class="col">
-             <label asp-for="Time" class="form-label"></label>
-             <input asp-for= "Time.ToShortTimeString()" class="form-control" >
-             <span asp-validation-for="Time" class="text-danger"></span>
-         </div>
+            <label asp-for="Time" class="form-label"></label>
+            <input asp-for= "Time.ToShortTimeString()" class="form-control" >
+            <span asp-validation-for="Time" class="text-danger"></span>
+        </div>
+        </div>
 
         <div class="row mt-3">
             <div class="col">

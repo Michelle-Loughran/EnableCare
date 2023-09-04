@@ -45,6 +45,7 @@ namespace CMS.Data.Services
         //======================Appointment Management==================================
         IList<Appointment> GetAllAppointments(string order=null);
         Appointment GetAppointmentById(int id);
+        IList <Appointment>  GetAppointmentsForUser(int id);
         Appointment AddAppointment(Appointment a);
         bool DeleteAppointment(int appointmentId);
         Appointment UpdateAppointment(Appointment updated);

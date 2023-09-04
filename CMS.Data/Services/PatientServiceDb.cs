@@ -625,7 +625,8 @@ public class PatientServiceDb : IPatientService
         // create the appointment and save
         var appointment = new Appointment
         {   
-            // Name = a.Name,
+            Name = a.Name,
+            UserName = a.UserName,
             Date = a.Date,
             Time = a.Time,
             PatientId = a.PatientId,
@@ -638,6 +639,15 @@ public class PatientServiceDb : IPatientService
         db.SaveChanges();
         return appointment;
     }    
+    public IList <Appointment> GetAppointmentsForUser(int id)
+    {
+        return db.Appointments
+            .Include(e => e.User)
+            .Include(e => e.Patient)
+            .Where(app => app.UserId == id)
+            .ToList();
+    }
+    
         public bool DeleteAppointment(int appointmentId)
     {
         var app = db.Appointments.FirstOrDefault(e => e.Id == appointmentId);
@@ -659,6 +669,8 @@ public class PatientServiceDb : IPatientService
         }
 
         // update the information for the appointment and save
+        appointment.Name = updated.Name;
+        appointment.UserName = updated.UserName;
         appointment.PatientId = updated.PatientId;
         appointment.UserId = updated.UserId;
         appointment.Date    = updated.Date;

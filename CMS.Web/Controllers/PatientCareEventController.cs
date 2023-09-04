@@ -28,16 +28,7 @@ namespace CMS.Web.Controllers
             return View(pce);
         }
 
-        [Authorize(Roles="carer, manager")]
-        public IActionResult Scheduled()
-        {
-            // user will be a manager or a carer
-            var userId = User.GetSignedInUserId();
 
-            var scheduled = svc.GetScheduledPatientCareEventsForUser(userId);
-            
-            return View(scheduled);
-        }
 
         // GET /Patient Care Event/details/{id}
         public IActionResult Details(int id)

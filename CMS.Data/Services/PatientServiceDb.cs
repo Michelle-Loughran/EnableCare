@@ -609,12 +609,18 @@ public class PatientServiceDb : IPatientService
     }
     public Appointment AddAppointment(Appointment a)
     {
-        //check appointment being passed does not exist
-        var exists = GetAppointmentById(a.Id);
-        if (exists != null)
+        var patient = GetPatientById(a.PatientId);
+        var user = GetCarerById(a.UserId);
+        if (patient is null || user is null)
         {
-            return null; // the Carer already exists
+            return null; // Careevent  cannot be added as as no such patient or user (carer)
         }
+        //check appointment being passed does not exist
+        // var exists = GetAppointmentById(a.Id);
+        // if (exists != null)
+        // {
+        //     return null; // the Carer already exists
+        // }
 
         // create the appointment and save
         var appointment = new Appointment
@@ -651,15 +657,6 @@ public class PatientServiceDb : IPatientService
         {
             return null;
         }
-
-        // check for another appointment with the same Time
-        // var found = db.Appointments
-        //               .FirstOrDefault(c => c.Date == updated.Date &&
-        //                                    c.Id != updated.Id);
-        // if (found != null)
-        // {
-        //     return null;
-        // }
 
         // update the information for the appointment and save
         appointment.PatientId = updated.PatientId;

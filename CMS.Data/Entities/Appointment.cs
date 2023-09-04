@@ -10,7 +10,7 @@ public class Appointment
   public string Name { get; set; }
      
   [System.ComponentModel.DisplayName("Scheduled For")]
-  public DateTime Date { get; set; }
+  public DateOnly Date { get; set; }
     
   [System.ComponentModel.DisplayName("Time")]
   public TimeOnly Time { get; set; }

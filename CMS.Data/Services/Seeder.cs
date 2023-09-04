@@ -387,9 +387,16 @@ namespace CMS.Data.Services
             // ============== Schedule CareEvents APPOINTMENTS =================
             var appointment1 = svc.AddAppointment(new Appointment
             {
-               Date = new DateTime(2023, 05, 28),
+               Date = new DateOnly(2023, 05, 28),
                 Time = new TimeOnly( 7,0,0),
                 PatientId = p1.Id,               
+                UserId = c2.Id,
+            });
+            var appointment2 = svc.AddAppointment(new Appointment
+            {
+               Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly( 7,30,0),
+                PatientId = p2.Id,               
                 UserId = c2.Id,
             });
             // Appointments patient 1 carer 1

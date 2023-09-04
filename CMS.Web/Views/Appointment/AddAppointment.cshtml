@@ -10,19 +10,24 @@
 <div class="card rounded shadow p-4">
    <h3>Add Appointment</h3>
     
-    <form asp-action="AddAppointment" >
+    <form asp-action="AddAppointment" asp-route-id="@Model.Id">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
          <div class="row mt-3">
             <div class="col">
                  <label asp-for="Date" class="form-label"></label>
                 <input asp-for="Date" class="form-control" >
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
+
          <div class="col">
              <label asp-for="Time" class="form-label"></label>
              <input asp-for= "Time" class="form-control" >
              <span asp-validation-for="Time" class="text-danger"></span>
          </div>
          </div>
+
         <div class="row mt-3">
             <div class="col">
                 <label asp-for="UserId" class="form-label"></label>
@@ -36,7 +41,6 @@
                 </select>
                 <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
-           
         </div>
         
 

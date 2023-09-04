@@ -47,25 +47,22 @@ namespace CMS.Web.Controllers
 //                 Alert("Patient does not exist", AlertType.warning);
 //                 return RedirectToAction(nameof(Index), "Appointment");
 //             }
-//             var user = svc.GetCarerById(id);
 //             // display blank form to create an appointment
 //             var pce = new Appointment
 //             {
 //                 Patient = patient,
-//                 User = user,
 //                 PatientId = patient.Id,  
-//                 UserId = user.Id,
 //                 Date = new DateTime(),
 //                 Time = new TimeOnly()
-//              
+             
 //             };
-//
+
 //             //return the new Patient care-event to the view
 //             ViewBag.Carers = new SelectList(svc.GetAllCarers(),"Id","Name");
 //             ViewBag.Patients = new SelectList(svc.GetAllPatients(),"Id","Name");
 //             return View(pce);
 // }
-//   // POST: /patientcareevent/schedule/patientId   
+// //   // POST: /patientcareevent/schedule/patientId   
 //         [ValidateAntiForgeryToken]
 //         [HttpPost]
 //         [Authorize(Roles="manager")]
@@ -76,22 +73,39 @@ namespace CMS.Web.Controllers
 //                 Alert($"Appointment Does not exist {app.Id}", AlertType.warning);
 //                 return RedirectToAction(nameof(Index));
 //             }
-//
+
 //             // complete POST action to add patient care event to database
 //             if (ModelState.IsValid)
 //             {
 //                 // call service AddAppointment method using data in app
 //                 svc.AddAppointment(app);
-//
+
 //                 Alert("Appointment scheduled successfully!", AlertType.warning);
-//
+
 //                 return RedirectToAction(nameof(Index), "Appointment", new { Id = app.PatientId });
 //             }
-//
+
 //             // redisplay the form for editing as there are validation errors
 //             return View(app);
 //         }
-        // GET /PatientCareEvent/Delete/{id}
+
+ // GET /Carer/edit/{id}
+    public IActionResult EditAppointment(int id)
+    {
+        // load the Carer using the service
+        var appointment = svc.GetAppointmentById(id);
+
+        // check if Carer is null and Alert/Redirect
+        if (appointment is null)
+        {
+            Alert("Appointment not found", AlertType.warning);
+            return RedirectToAction(nameof(Index));
+        }  
+
+        // pass patient to view for editing
+        return View(appointment);
+    }
+            // GET /PatientCareEvent/Delete/{id}
         public IActionResult Delete(int id)
         {
             var app = svc.GetAppointmentById(id);
@@ -105,7 +119,6 @@ namespace CMS.Web.Controllers
 
             return View(app);
         }
-
         // POST /PatientCareEvent/Delete/{id}
         [HttpPost]
         public IActionResult DeleteConfirm(int id)

@@ -593,8 +593,87 @@ public class PatientServiceDb : IPatientService
         return member;
     }
 
-    //  //======================CareEvent Management==================================
+    //  //======================Appointment Management==================================
+     public IList<Appointment> GetAllAppointments(string order = null)
+    {
+        return db.Appointments.ToList();
 
+    } 
+
+        public Appointment GetAppointmentById(int id)
+    {
+        return db.Appointments
+                    .Include(p => p.Patient)
+                    .Include(p => p.User)
+                    .FirstOrDefault(ap => ap.Id == id);
+    }
+    public Appointment AddAppointment(Appointment a)
+    {
+        //check appointment being passed does not exist
+        var exists = GetAppointmentById(a.Id);
+        if (exists != null)
+        {
+            return null; // the Carer already exists
+        }
+
+        // create the appointment and save
+        var appointment = new Appointment
+        {   
+            // Name = a.Name,
+            Date = a.Date,
+            Time = a.Time,
+            PatientId = a.PatientId,
+            UserId = a.UserId,
+
+        };
+
+        //add Carer to database
+        db.Appointments.Add(appointment);
+        db.SaveChanges();
+        return appointment;
+    }    
+        public bool DeleteAppointment(int appointmentId)
+    {
+        var app = db.Appointments.FirstOrDefault(e => e.Id == appointmentId);
+        if (app == null)
+        {
+            return false;
+        }
+        db.Appointments.Remove(app);
+        db.SaveChanges();
+        return true;
+    }
+ public Appointment UpdateAppointment(Appointment updated)
+    {
+        // verify the carer exists
+        var appointment = GetAppointmentById(updated.Id);
+        if (appointment == null)
+        {
+            return null;
+        }
+
+        // check for another appointment with the same Time
+        // var found = db.Appointments
+        //               .FirstOrDefault(c => c.Date == updated.Date &&
+        //                                    c.Id != updated.Id);
+        // if (found != null)
+        // {
+        //     return null;
+        // }
+
+        // update the information for the appointment and save
+        appointment.PatientId = updated.PatientId;
+        appointment.UserId = updated.UserId;
+        appointment.Date    = updated.Date;
+        appointment.Time = updated.Time;
+
+        db.SaveChanges();
+        return appointment;
+    }
+
+
+
+      //  //======================CareEvent Management==================================
     public IList<PatientCareEvent> GetAllPatientCareEvents(string order = null)
     {
         return db.PatientCareEvents.ToList();

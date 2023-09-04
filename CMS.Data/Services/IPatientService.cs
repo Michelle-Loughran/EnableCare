@@ -42,12 +42,15 @@ namespace CMS.Data.Services
         bool DeleteCarer(int id);
         User UpdateCarer(User updated);
 
-        //======================CareEvent Management==================================
-        
+        //======================Appointment Management==================================
+        IList<Appointment> GetAllAppointments(string order=null);
+        Appointment GetAppointmentById(int id);
+        Appointment AddAppointment(Appointment a);
+        bool DeleteAppointment(int appointmentId);
+        Appointment UpdateAppointment(Appointment updated);
+         //======================CareEvent Management==================================
         IList<PatientCareEvent> GetAllPatientCareEvents(string order=null);
-
         IList<PatientCareEvent> GetScheduledPatientCareEventsForUser(int userId);
-
         PatientCareEvent GetPatientCareEventById(int id);
         PatientCareEvent SchedulePatientCareEvent(PatientCareEvent ce);
         PatientCareEvent CompletePatientCareEvent(PatientCareEvent ce);

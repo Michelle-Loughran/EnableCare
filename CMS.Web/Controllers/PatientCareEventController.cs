@@ -29,7 +29,6 @@ namespace CMS.Web.Controllers
         }
 
         [Authorize(Roles="carer, manager")]
-
         public IActionResult Scheduled()
         {
             // user will be a manager or a carer
@@ -176,10 +175,10 @@ namespace CMS.Web.Controllers
             if (ce is null) 
             {
                 Alert("Patient Care Event Could not be deleted", AlertType.warning); 
-            }
-           svc.DeletePatientCareEvent(id);           
+            } 
+            svc.DeletePatientCareEvent(id);           
 
-           return RedirectToAction("Details", "Patient", new { id = ce.PatientId });
+           return RedirectToAction("Details", "PatientCareEvent", new { id = ce.Id });
         }
 
     }

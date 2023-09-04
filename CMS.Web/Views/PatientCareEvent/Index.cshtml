@@ -10,12 +10,13 @@
 
     <div class="mt-4 mb-4">
        <!-- add an action link styled as a button to navigate to Create Action -->
-       <a asp-action="Create" class="btn btn-primary btn-sm">Add Appoinment</a>
+       <a asp-action="Schedule" class="btn btn-primary btn-sm">Add Appointment</a>
     </div>
 
 <div class="card border rounded shadow p-4">
     <h3>Appointment List</h3>
-    <!-- Title bar -->
+<!-- Title bar -->
+</div>
     <div class="d-flex align-items-center justify-content-between">
     <table class="table table-striped">
     <thead>
@@ -23,9 +24,9 @@
             <th>Date</th> 
             <th>Time</th>
             <th>Carer Id</th> 
-            <th>Carer Name</th>
+            @* <th>Carer Name</th> *@
             <th>Patient Id</th>
-            <th>Patient Name</th> 
+            @* <th>Patient Name</th>  *@
             <th>Actions</th>
         </tr>
     </thead>
@@ -35,23 +36,23 @@
                 <td>@pce.DateTimeOfEvent.ToShortDateString()</td>
                 <td>@pce.DateTimeOfEvent.ToShortTimeString()</td>
                 <td>@pce.UserId</td>
-                <td>@pce.User.Name</td> 
+                @* <td>@pce.User.Name</td>  *@
                 <td>@pce.PatientId</td>
-                 <td>@pce.Patient.Name</td>
+                 @* <td>@pce.Patient.Name</td> *@
                 <td>
                     <a asp-action="Details" asp-route-id="@pce.Id">
-                        <i class="material-icons" title="View CareEvent">View</i>
+                            <i class="bi bi-info-circle" title="View Details"></i>
                     </a> 
                     @* @if (User.IsInRole("Admin") || User.IsInRole("Manager"))  *@
                     
-                        <a asp-action="Edit" asp-route-id="@pce.Id">
-                            <i class="material-icons" title="Edit CareEvent">edit</i>
-                        </a> 
+                        @* <a asp-action="Edit" asp-route-id="@pce.Id"> *@
+                        @*     <i class="bi bi-pencil" title="Edit Details"></i> *@
+                        @* </a>  *@
                     
-                    @* @if (User.IsInRole(Role.admin.ToString())) *@
+                    @* @if (User.IsInRole("Admin") || User.IsInRole("Manager"))  *@
                     
                         <a asp-action="Delete" asp-route-id=@pce.Id>
-                            <i class="material-icons" title="Delete CareEvent">delete</i>
+                            <i class="by bi-trash" title="Delete Details"></i>
                         </a> 
     
                 </td>
@@ -59,5 +60,5 @@
         }
     </tbody>
 </table>
-
+</div>
 

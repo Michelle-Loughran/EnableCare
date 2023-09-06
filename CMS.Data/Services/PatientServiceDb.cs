@@ -5,6 +5,7 @@ using CMS.Data.Security;
 using System.Runtime.Intrinsics.X86;
 using System.IO;
 using Microsoft.VisualBasic;
+using System.Runtime.CompilerServices;
 
 namespace CMS.Data.Services;
 
@@ -599,7 +600,6 @@ public class PatientServiceDb : IPatientService
         return db.Appointments.ToList();
 
     } 
-
         public Appointment GetAppointmentById(int id)
     {
         return db.Appointments
@@ -609,55 +609,38 @@ public class PatientServiceDb : IPatientService
     }
     public Appointment AddAppointment(Appointment a)
     {
-        var patient = GetPatientById(a.PatientId);
-        var user = GetCarerById(a.UserId);
-        if (patient is null || user is null)
-        {
-            return null; // Careevent  cannot be added as as no such patient or user (carer)
-        }
         //check appointment being passed does not exist
-        // var exists = GetAppointmentById(a.Id);
-        // if (exists != null)
-        // {
-        //     return null; // the Carer already exists
-        // }
+        var exists = GetAppointmentById(a.Id);
+        if (exists != null)
+        {
+            return null;
+        }
 
         // create the appointment and save
-        var appointment = new Appointment
-        {   
-            Name = a.Name,
-            UserName = a.UserName,
-            Date = a.Date,
-            Time = a.Time,
-            PatientId = a.PatientId,
-            UserId = a.UserId,
-
-        };
-
-        //add Carer to database
-        db.Appointments.Add(appointment);
+        db.Appointments.Add(a);
         db.SaveChanges();
-        return appointment;
+        return a;
     }    
-    public IList <Appointment> GetAppointmentsForUser(int id)
+    public IList <Appointment> GetAppointmentsForUser(int userId)
     {
         return db.Appointments
             .Include(e => e.User)
             .Include(e => e.Patient)
-            .Where(app => app.UserId == id)
+            .Where(app => app.UserId == userId)
             .ToList();
     }
     
         public bool DeleteAppointment(int appointmentId)
     {
-        var app = db.Appointments.FirstOrDefault(e => e.Id == appointmentId);
-        if (app == null)
-        {
-            return false;
-        }
-        db.Appointments.Remove(app);
-        db.SaveChanges();
-        return true;
+            //retrieve appointment to delete
+            var appointment = GetAppointmentById(appointmentId);
+            if(appointment == null)
+            {
+                return false;
+            }
+            db.Appointments.Remove(appointment);
+            db.SaveChanges();
+            return true;
     }
  public Appointment UpdateAppointment(Appointment updated)
     {
@@ -669,8 +652,8 @@ public class PatientServiceDb : IPatientService
         }
 
         // update the information for the appointment and save
-        appointment.Name = updated.Name;
-        appointment.UserName = updated.UserName;
+        appointment.User = updated.User;
+        appointment.Patient = updated.Patient;
         appointment.PatientId = updated.PatientId;
         appointment.UserId = updated.UserId;
         appointment.Date    = updated.Date;

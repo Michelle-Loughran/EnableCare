@@ -27,7 +27,16 @@ namespace CMS.Web.Controllers
 
             return View(pce);
         }
+    [Authorize(Roles="carer, manager")]
+        public IActionResult Scheduled()
+        {
+            // user will be a manager or a carer
+            var userId = User.GetSignedInUserId();
 
+            var scheduled = svc.GetScheduledPatientCareEventsForUser(userId);
+            
+            return View(scheduled);
+        }
 
 
         // GET /Patient Care Event/details/{id}
@@ -66,6 +75,7 @@ namespace CMS.Web.Controllers
 
             //return the new Patient care-event to the view
             ViewBag.Carers = new SelectList(svc.GetAllCarers(),"Id","Name");
+            ViewBag.Patients = new SelectList(svc.GetAllPatients(),"Id","Name");
             return View(pce);
         }
 

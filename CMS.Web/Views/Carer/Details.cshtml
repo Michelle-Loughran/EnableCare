@@ -8,7 +8,8 @@
     </ol>
 </nav>
 
-<h3 class="mt-4 mb-4">Patient Details:          @Model.Firstname   @Model.Surname  </h3>        
+<div class="card rounded shadow mt-4 p-3">
+    <h3 class="mb-4">Carer Details</h3>     
 
 <div class="row">
     <div class="col-8 card rounded shadow pt-3">
@@ -45,29 +46,36 @@
                 <dd class="col-sm-7">@Model.HomeNumber </dd>
                 <dt class="col-sm-5">Qualifications</dt>
                 <dd class="col-sm-7">@Model.Qualifications </dd>
-
         </dl>
-    </div>
     </div>
 
          <!-- photo -->
 
         <div class="col-4">
-              <img src= "@Model.PhotoUrl" class="img-fluid"> 
-              </div>
+            <img src= "@Model.PhotoUrl" class="img-fluid"> 
+           </div>
+           
+       </div>    
 
 <!-- action options -->
         <div class="mt-4 mb-4"> 
-        <a asp-controller="Carer" asp-action="Index" class="btn btn-primary"><i class="bi bi-list"></i>
+        <a asp-controller="Carer" asp-action="Index" class="btn btn-primary">
+            <i class="bi bi-list"></i>
             Carer List
-        </a>    
-        <a asp-controller="Carer" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="bi bi-pen"></i>
-            Edit Carer
-        </a>  
-        <a asp-controller="Carer" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary"><i class = "bi bi-trash"></i>
+        </a>
+
+        <a asp-roles="manager" asp-controller="Carer" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-pen"></i>
+            Edit Patient
+        </a>
+
+        <a asp-roles="manager" asp-controller="Carer" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary">
+            <i class="bi bi-trash"></i>
             Delete
-        </a> 
+        </a>
       </div>
+</div>
+
 
 
             

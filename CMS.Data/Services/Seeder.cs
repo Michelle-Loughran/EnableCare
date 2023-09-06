@@ -390,8 +390,8 @@ namespace CMS.Data.Services
                Date = new DateOnly(2023, 05, 28),
                 Time = new TimeOnly( 7,0,0),
                 PatientId = p1.Id,               
-                UserId = c2.Id,
-                Name = "",
+                UserId = manager.Id,
+                Name = "Michelle ",
             });
             var appointment2 = svc.AddAppointment(new Appointment
             {
@@ -399,6 +399,7 @@ namespace CMS.Data.Services
                 Time = new TimeOnly( 7,30,0),
                 PatientId = p2.Id,               
                 UserId = c2.Id,
+                 Name = "Anne ",
             });
             // Appointments patient 1 carer 1
             var ap1 = svc.SchedulePatientCareEvent(new PatientCareEvent

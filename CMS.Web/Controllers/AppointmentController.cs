@@ -5,6 +5,7 @@ using CMS.Data.Services;
 using CMS.Web.Models.Appointment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace CMS.Web.Controllers
 {
@@ -27,82 +28,87 @@ namespace CMS.Web.Controllers
 
             return View(app);
         }
+        public IActionResult AppointmentDetails(int id)
+        {
+            var appointment = svc.GetAppointmentById(id);
 
-        // GET: /appointment/add-appointment/id   
-        // [Authorize(Roles = "manager")]
-        // public IActionResult AddAppointment()
-        // {
-        //     // display blank form to create a patient
-        //     var app = new Appointment();
-        //     //return the new patient to the view
-        //     return View(app);
-        // }
+            // check if patientcare-events is null and alert/redirect 
+            if (appointment is null)
+            {
+                Alert("Appointment Does not Exist", AlertType.warning);
+                return RedirectToAction(nameof(Index));
+            }
 
+            return View(appointment);
+        }
+        
 //     // GET: /appointment/create
-[Authorize(Roles="manager")]   
-    public IActionResult AddAppointment(int id)
+    [Authorize(Roles="manager")]   
+    public IActionResult AddAppointment()
     {       
             var users =svc.GetAllCarers();
-            var user =svc.GetCarerByUserId(id);
             var patients = svc.GetAllPatients();
-            var patient = svc.GetPatientById(id);
-            if (patient == null)
+            if (users == null || patients == null)
             {
-                Alert("Patient does not exist", AlertType.warning);
-                return RedirectToAction(nameof(Index), "Appointment");
-            }
+                Alert("Please check there are users and patients!", AlertType.warning);
+                return RedirectToAction(nameof(Index));   
+            }   
             // display blank form to create an appointment
-            var avm = new AppointmentViewModel
+            var avm = new AddAppointmentViewModel
             {
-                Patients = new SelectList(patients,"Id","Name"),
-                Users = new SelectList(users,"Id","Name"),
-                PatientId = patient.Id,
-                Name = patient.Name,
-                UserName = user.Name,
-                Date = new DateOnly(),
-                Time = new TimeOnly()
+                Patients = new SelectList(patients,"Id","Patient.Name"),
+                Users = new SelectList(users,"Id","User.Name"),
+
             };
 
             //return the new Patient care-event to the view
-            return View("AddAppointment",avm);
-}
-// //   // POST: /patientcareevent/schedule/patientId   
+            return View(avm);
+    }
+  // POST: /patientcareevent/schedule/patientId   
         [ValidateAntiForgeryToken]
         [HttpPost]
-        [Authorize(Roles="admin, manager")]
-        public IActionResult AddAppointment([Bind("Date, Name, Time, PatientId, UserId")] AppointmentViewModel app, int id)
-        {    // Check patient care event being passed in has Id preset before adding properties
-            var user = svc.GetCarerByUserId(app.UserId);
-            var patient = svc.GetPatientById(app.PatientId);
-            if (patient == null)
-            {
-                Alert("Patient does not exist", AlertType.warning);
-                return RedirectToAction(nameof(Index));
-            }
-            
-            // complete POST action to add patient care event to database
+        public IActionResult AddAppointment([Bind("Name, UserName, Date, Time, PatientId, UserId")] AddAppointmentViewModel app)
+
+        {    // Check patient care event being passed in has Id preset before adding propertie
             if (ModelState.IsValid)
             {
-                // call service AddAppointment method using data in app
-                var appointment = new Appointment {
-                    Patient = patient,
-                    PatientId = app.PatientId,
-                    User = user,
-                    UserId = app.UserId,
+                var appointment = new Appointment
+                {
+                    Name = app.Name,
+                    UserName = app.UserName,
                     Date = app.Date,
                     Time = app.Time,
-                };  
+                    UserId = app.UserId,
+                    PatientId = app.PatientId,     
 
-                Alert("Appointment scheduled successfully!", AlertType.warning);
+                };
+                // call service Addpatientcareevent method using data in pce
+                svc.AddAppointment(appointment);
+                
+                Alert("Adding Appointment was scheduled successfully!", AlertType.warning);
 
-                return RedirectToAction("AppointmentDetails","Appointment", new { Id = app.PatientId });
+                return RedirectToAction(nameof(AppointmentDetails), new { Id = app.Id });
+            }
+            // initialise the selectlist
+            var users = svc.GetAllCarers();
+            app.Users = new SelectList(users,"Id","User.Name");  
+
+            var patients = svc.GetAllPatients();
+            app.Patients= new SelectList(patients,"Id","Name");  
+
+            // if null, redirect to index
+            if (users == null || patients == null)
+            {
+                Alert("Appointment was NOT added, there is a problem", AlertType.warning);
+                return RedirectToAction(nameof(Index));   
             }
 
-            // redisplay the form for editing as there are validation errors
+            // Redisplay for editing if it contains errors
             return View(app);
         }
 
- // GET /Carer/edit/{id}
+
+    // GET /Carer/edit/{id}
     public IActionResult EditAppointment(int id)
     {
         // load the Carer using the service
@@ -113,19 +119,31 @@ namespace CMS.Web.Controllers
         {
             Alert("Appointment not found", AlertType.warning);
             return RedirectToAction(nameof(Index));
-        }  
+        }
 
-        // pass patient to view for editing
-        return View(appointment);
+        var avm = new AppointmentViewModel
+        {
+            Date = appointment.Date,
+            Time = appointment.Time,
+            Name = appointment.Name,
+            PatientId = appointment.PatientId,
+            UserId = appointment.UserId
+        };
+        var patients = svc.GetAllPatients();
+        avm.Patients = new SelectList(patients, "Id", "Patient.Name");
+        var users = svc.GetAllCarers();
+        avm.Users = new SelectList(users, "Id", "User.Name");
+        // pass appointment to view for editing
+        return View("EditAppointment",(avm));
     }
     
     [Authorize(Roles="carer, manager")]
-    public IActionResult AppointmentDetails()
+    public IActionResult MyAppointments()
     {
         // user will be a manager or a carer
         var userId = User.GetSignedInUserId();
 
-        var scheduled = svc.GetScheduledPatientCareEventsForUser(userId);
+        var scheduled = svc.GetAppointmentsForUser(userId);
             
         return View(scheduled);
     }
@@ -143,6 +161,7 @@ namespace CMS.Web.Controllers
 
             return View(app);
         }
+        
         // POST /PatientCareEvent/Delete/{id}
         [HttpPost]
         public IActionResult DeleteConfirm(int id)
@@ -159,4 +178,5 @@ namespace CMS.Web.Controllers
         }
 
     }
-}
+    }
+

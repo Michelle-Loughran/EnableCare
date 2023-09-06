@@ -13,12 +13,18 @@
 <div class="row">
     <div class="col-8 card rounded shadow pt-3">
         <dl class="row">              
-                <dt class=col-sm-5>Id</dt>
-                <dd class="col-sm-7">@Model.Id</dd>
-                <dt class=col-sm-5>CarePlan</dt>
-                <dd class="col-sm-7">@Model.CarePlan</dd>     
-                <dt class=col-sm-5>Issues</dt>
-                <dd class="col-sm-7">@Model.Issues</dd>                
+            <dt class=col-sm-5>Id</dt>
+            <dd class="col-sm-7">@Model.Id</dd>
+            <dt class=col-sm-5>CarePlan</dt>
+            <dd class="col-sm-7">@Model.CarePlan</dd>
+            <dt class=col-sm-5>Issues</dt>
+            <dd class="col-sm-7">@Model.Issues</dd>
+            <dt class=col-sm-5>Time</dt>
+            <dd class="col-sm-7">@Model.DateTimeOfEvent</dd>
+            <dt class=col-sm-5>Carer</dt>
+            <dd class="col-sm-7">@Model.User.Name</dd>
+            <dt class=col-sm-5>Patient</dt>
+            <dd class="col-sm-7">@Model.Patient.Name</dd>                   
         </dl>
   
     </div>

@@ -10,7 +10,7 @@
 <div class="card rounded shadow p-4">
    
    <div class="d-flex justify-content-between mb-3">
-        <h3>@Model.Patient.Name <span>Care Event</span></h3>
+        <h3><span>Care Event</span></h3>
    </div>
 
     <h5>Care Plan</h5>
@@ -34,7 +34,15 @@
                 </select>
                 <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
-
+                   
+            <div class="col">
+                 <label asp-for="PatientId" class="form-label"></label>
+                <select asp-for="PatientId" class="form-control" asp-items=@ViewBag.Patients>
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            </div>
+<div class="row mt-3">
             <div class="col">
                  <label asp-for="DateTimeOfEvent" class="form-label"></label>
                 <input asp-for="DateTimeOfEvent" class="form-control" >

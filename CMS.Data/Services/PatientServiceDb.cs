@@ -609,12 +609,28 @@ public class PatientServiceDb : IPatientService
     }
     public Appointment AddAppointment(Appointment a)
     {
-        //check appointment being passed does not exist
         var exists = GetAppointmentById(a.Id);
         if (exists != null)
         {
-            return null;
+            return null;//Appointment cannot be added as it already exists
         }
+
+            var patients = GetAllPatients();
+            var users = GetAllCarers();
+
+             if (patients is null || users is null)
+        {
+            return null; 
+            //Appoointment cannot be added as as no such patient or user (carer)
+        }
+        var appointment = new Appointment
+        {
+
+            Date = a.Date,
+            Time = a.Time ,
+            PatientId = a.PatientId,
+            UserId = a.UserId    
+        };
 
         // create the appointment and save
         db.Appointments.Add(a);

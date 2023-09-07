@@ -9,33 +9,35 @@ namespace CMS.Data.Services
     public static class Seeder
     {
         // use this class to seed the database with dummy test data using an IUserService 
-        public static void Seed( IPatientService svc)
+        public static void Seed(IPatientService svc)
         {
             // seeder destroys and recreates the database - NOT to be called in production!!!
             svc.Initialise();
 
             // add admin users
-            var admin = svc.AddUser( 
-                new User {
+            var admin = svc.AddUser(
+                new User
+                {
                     Firstname = "The",
-                    Surname = "Admin",                 
+                    Surname = "Admin",
                     Password = "password",
                     Email = "admin@mail.com",
                     Role = Role.admin
                 }
             );
 
-            var manager = svc.AddUser( 
-                new User {
+            var manager = svc.AddUser(
+                new User
+                {
                     Firstname = "The",
                     Surname = "Manager",
                     Email = "manager@mail.com",
-                    Password = "password",                   
+                    Password = "password",
                     Role = Role.manager
                 }
             );
 
-    
+
             // ===================  add carers ==================
 
             var c1 = svc.AddCarer(new User
@@ -56,8 +58,8 @@ namespace CMS.Data.Services
                 HomeNumber = "02830303030",
                 Qualifications = "8 GCSE's, Maths, A, English B, Social Care A, Accounts C,Economics C Art B, RE C, PSE C",
                 PhotoUrl = "/images/Carer1.jpg",
-                Role= Role.manager
-                 
+                Role = Role.manager
+
             });
 
             var c2 = svc.AddCarer(new User
@@ -78,8 +80,8 @@ namespace CMS.Data.Services
                 HomeNumber = "02830303030",
                 Qualifications = "8 GCSE's, Maths, A, English B, Social Care A, Accounts C,Economics C Art B, RE C, PSE C",
                 PhotoUrl = "/images/Carer2.jpg",
-                Role= Role.carer
-               
+                Role = Role.carer
+
             });
 
             var c3 = svc.AddCarer(new User
@@ -99,7 +101,28 @@ namespace CMS.Data.Services
                 MobileNumber = "01234567891",
                 HomeNumber = "02830303030",
                 Qualifications = "8 GCSE's, Maths, A, English B, Social Care A, Accounts C,Economics C Art B, RE C, PSE C",
-                PhotoUrl = "/images/Carer2.jpg",             
+                PhotoUrl = "/images/Carer3.jpg",
+                Role = Role.carer
+            });
+            var c4 = svc.AddCarer(new User
+            {
+                Title = "Mrs",
+                Firstname = "Amanda",
+                Surname = "Hasselhoff",
+                DOB = new DateTime(1970, 06, 30),
+                NationalInsuranceNo = "NR3212432D",
+                DBSCheck = true,
+                Email = "carer4@mail.com",
+                Password = "password",
+                Street = "37 Warren Hill",
+                Town = "Newry",
+                County = "Down",
+                Postcode = "BT34 2PH",
+                MobileNumber = "00112233456",
+                HomeNumber = "02830303030",
+                Qualifications = "8 GCSE's, Maths, A, English B, Social Care A, Accounts C,Economics C Art B, RE C, PSE C",
+                PhotoUrl = "/images/carer4.jpg",
+                Role = Role.carer
             });
 
 
@@ -122,7 +145,9 @@ namespace CMS.Data.Services
                 Email = "joe@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Joe is an elderly gentleman who lives on his own.  " +
+                "He needs help with most things, " + "Medication, dressing, breakfast, lunch, dinner.  " +
+                "He suffers from incontinence and needs to be changed regularly.  "
 
                 //  ....
             });
@@ -144,7 +169,9 @@ namespace CMS.Data.Services
                 Email = "Mary@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Mary is an elderly woman who lives on her own.  " +
+                "She needs help with most things.  " + "Medication, dressing, breakfast, lunch, dinner, changing tv channels.  " +
+                "Please ensure her medication is given on time.  "
                 // ....
             });
 
@@ -166,7 +193,10 @@ namespace CMS.Data.Services
                 Email = "Tom@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Tom a former bank manager, has problems with his hands and finds it very difficult to dress.  "
+                + "He finds it difficult to use the tv remote, he is suffering from dementia, but has many friends that call.  " +
+                "He is a very proud man who especially likes to be dressed right.  He needs help with putting on washes, and transferring clothes" +
+                " to the tumble drier."
                 // ....
             });
 
@@ -188,7 +218,10 @@ namespace CMS.Data.Services
                 Email = "Donald@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Donald used to work in the tv industry and loves chatting.  He is very immobile.  " +
+                "He needs help with medication, washing and dressing.  " + "Donald has lost a substantial amount of weight after a recent operation.  " +
+                 "He needs reminding to eat.  Please ensure that he eats.  There is always plenty of food in the fridge.  " +
+                 "The family are very concerned about him at the moment."
                 // ....
             });
 
@@ -210,7 +243,11 @@ namespace CMS.Data.Services
                 Email = "Mickey@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Mickey loves to laugh.  Mickey has some mobility issues but can dress himself.  " +
+                "He needs help with his medication.  He also has some memory problems, his wife who was a doctor, died recently.  " +
+                "That has had an effect on him.  He needs help with washing, putting on the dishwasher" +
+                " and putting on the washing machine and tumble drier.  " + "He also needs help with breakfast, lunch and dinner and getting dressed for bed.  "
+                // ....
                 // ....
             });
 
@@ -231,7 +268,9 @@ namespace CMS.Data.Services
                 Email = "Nancy@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Nancy is an elderly woman who lives on her own.  A retired teacher.  " +
+                "She needs help with most things.  " + "Medication, dressing, breakfast, lunch, dinner, changing tv channels.  " +
+                "Please ensure her medication is given on time.  "
                 // ....
             });
 
@@ -253,7 +292,11 @@ namespace CMS.Data.Services
                 Email = "Brian@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Brian loves to chat and you will often see him with his painting brushes.  Brian has some mobility issues but can dress himself.  " +
+                "He needs help with his medication.  He also has some memory problems.  " +
+                "He needs help with washing, putting on the dishwasher" +
+                " and putting on the washing machine and tumble drier.  " + "He also needs help with breakfast, lunch and dinner and getting dressed for bed.  "
+                // ....
                 // ....
             });
 
@@ -275,7 +318,10 @@ namespace CMS.Data.Services
                 Email = "Niall@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Niall is an elderly gentleman who lives on his own.  " +
+                "He needs help with most things, " + "Medication, dressing, breakfast, lunch, dinner.  " +
+                "He suffers from incontinence and needs to be changed regularly.  "
+                // ....
                 // ....
             });
 
@@ -297,7 +343,9 @@ namespace CMS.Data.Services
                 Email = "Michael@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "Michael is an elderly gentleman who lives on his own.  " +
+                "He needs help with most things, " + "Medication, dressing, breakfast, lunch, dinner."
+                // ....
                 // ....
             });
 
@@ -318,11 +366,14 @@ namespace CMS.Data.Services
                 Email = "Mary@mail.com",
                 GP = "Dr A Blagg",
                 SocialWorker = " Dr Minnie Mouse",
-                CarePlan = "See File for details"
+                CarePlan = "John loves to laugh.  John has some mobility issues but can dress himself.  " +
+                "He needs help with his medication.  He also has some memory problems, his wife died recently.  " +
+                "That has had an effect on him.  He needs help with washing, putting on the dishwasher" +
+                " and putting on the washing machine and tumble drier.  " + "He also needs help with breakfast, lunch and dinner and getting dressed for bed.  "
                 // ....
             });
 
-           // ================== Conditions =======================
+            // ================== Conditions =======================
             var con1 = svc.AddCondition(new Condition
             {
                 Name = "Diabetes",
@@ -356,7 +407,7 @@ namespace CMS.Data.Services
             {
                 Title = "Mr",
                 Firstname = "Member",
-                Surname = "One",              
+                Surname = "One",
                 Email = "member1@mail.com",
                 Password = "password",
                 Street = "34 Big Hill",
@@ -365,14 +416,14 @@ namespace CMS.Data.Services
                 Postcode = "BT34 2PH",
                 MobileNumber = "01234567891",
                 HomeNumber = "02830303030",
-                           
+
             });
 
             var m2 = svc.AddMember(new User
             {
                 Title = "Mrs",
                 Firstname = "Member",
-                Surname = "Two",              
+                Surname = "Two",
                 Email = "member2@mail.com",
                 Password = "password",
                 Street = "34 Big Hill",
@@ -381,167 +432,231 @@ namespace CMS.Data.Services
                 Postcode = "BT34 2PH",
                 MobileNumber = "01234567891",
                 HomeNumber = "02830303030",
-                           
+
             });
 
             // ============== Schedule CareEvents APPOINTMENTS =================
             var appointment1 = svc.AddAppointment(new Appointment
             {
-               Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly( 7,0,0),
-                PatientId = p1.Id,               
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(7, 0, 0),
+                PatientId = p1.Id,
                 UserId = manager.Id,
-                Name = "Michelle ",
+
             });
             var appointment2 = svc.AddAppointment(new Appointment
             {
-               Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly( 7,30,0),
-                PatientId = p2.Id,               
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(7, 30, 0),
+                PatientId = p2.Id,
                 UserId = c2.Id,
-                 Name = "Anne ",
+
+            });
+            var appointment3 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(8, 00, 0),
+                PatientId = p3.Id,
+                UserId = c2.Id,
+
+            });
+            var appointment4 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(8, 30, 0),
+                PatientId = p4.Id,
+                UserId = c2.Id,
+
+            });
+            var appointment5 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(9, 0, 0),
+                PatientId = p5.Id,
+                UserId = c2.Id,
+
+            });
+            var appointment6 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(9, 30, 0),
+                PatientId = p6.Id,
+                UserId = c3.Id,
+
+            });
+            var appointment7 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(10, 00, 0),
+                PatientId = p7.Id,
+                UserId = c3.Id,
+
+            });
+            var appointment8 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(10, 30, 0),
+                PatientId = p8.Id,
+                UserId = c3.Id,
+
+            });
+            var appointment9 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(11, 00, 0),
+                PatientId = p9.Id,
+                UserId = c3.Id,
+
+            });
+            var appointment10 = svc.AddAppointment(new Appointment
+            {
+                Date = new DateOnly(2023, 05, 28),
+                Time = new TimeOnly(11, 30, 0),
+                PatientId = p10.Id,
+                UserId = c3.Id,
+
             });
             // Appointments patient 1 carer 1
             var ap1 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
                 CarePlan = p1.CarePlan,
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 7,0,0),
-                PatientId = p1.Id,               
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 7, 0, 0),
+                PatientId = p1.Id,
                 UserId = c1.Id,
             });
             var ap2 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
                 CarePlan = p2.CarePlan,
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 7,30,0),
-                PatientId = p2.Id,              
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 7, 30, 0),
+                PatientId = p2.Id,
                 UserId = c1.Id,
             });
 
             // // Appointments patient 2 carer 2
             var ap3 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p3.CarePlan,  
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 8,00,0),
+                CarePlan = p3.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 8, 00, 0),
                 PatientId = p3.Id,
                 UserId = c2.Id,
             });
             var ap4 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
                 CarePlan = p4.CarePlan,
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 8,30,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 8, 30, 0),
                 PatientId = p2.Id,
                 UserId = c2.Id,
-            });           
+            });
             var ap5 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p5.CarePlan,    
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 9,0,0),
+                CarePlan = p5.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 9, 0, 0),
                 PatientId = p5.Id,
                 UserId = c2.Id,
             });
-            
+
             // // Appointments patient 3 carer 2
             var ap6 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p6.CarePlan, 
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 9,30,0),
+                CarePlan = p6.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 9, 30, 0),
                 PatientId = p6.Id,
                 UserId = c2.Id,
             });
-            
+
             var ap7 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p7.CarePlan,  
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 10,00,0),
+                CarePlan = p7.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 10, 00, 0),
                 PatientId = p7.Id,
                 UserId = c2.Id,
             });
-            
+
             // Appointments patient 4 carer 3
-            var ap8 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            var ap8 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p8.CarePlan,   
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 10,30,0),
+                CarePlan = p8.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 10, 30, 0),
                 PatientId = p8.Id,
                 UserId = c2.Id,
-            });            
-            var ap9 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            });
+            var ap9 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p9.CarePlan,  
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 11,00,0),
+                CarePlan = p9.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 11, 00, 0),
                 PatientId = p9.Id,
                 UserId = c3.Id,
-            });            
-            var ap10 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            });
+            var ap10 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p10.CarePlan,   
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 11,30,0),
+                CarePlan = p10.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 11, 30, 0),
                 PatientId = p10.Id,
                 UserId = c3.Id,
             });
-            
+
             // Appointments patient 5 carer 3
-            var ap11 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            var ap11 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p1.CarePlan, 
-                DateTimeOfEvent = new DateTime(2023, 05, 28,12,00,0),
+                CarePlan = p1.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 12, 00, 0),
                 PatientId = p1.Id,
                 UserId = c3.Id,
             });
-            var ap12 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            var ap12 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p2.CarePlan,   
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 12,30,0),
+                CarePlan = p2.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 12, 30, 0),
                 PatientId = p2.Id,
                 UserId = c3.Id,
             });
-            
-            var ap13= svc.SchedulePatientCareEvent(new PatientCareEvent        
+
+            var ap13 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p3.CarePlan,   
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 13,0,0),
+                CarePlan = p3.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 13, 0, 0),
                 PatientId = p3.Id,
                 UserId = c3.Id,
             });
-            
+
             // Appointments patient 6 carer 1
-            var ap14 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            var ap14 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p4.CarePlan,  
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 13,30,0),
+                CarePlan = p4.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 13, 30, 0),
                 PatientId = p4.Id,
                 UserId = c3.Id,
-            });           
-            var ap15 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            });
+            var ap15 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p5.CarePlan,      
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 14,0,0),
+                CarePlan = p5.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 14, 0, 0),
                 PatientId = p5.Id,
                 UserId = c3.Id,
-            });            
-            var ap16 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            });
+            var ap16 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
                 CarePlan = p6.CarePlan,
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 14,45,0),
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 14, 45, 0),
                 PatientId = p6.Id,
                 UserId = c3.Id,
-            });              
-            var ap17 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            });
+            var ap17 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p7.CarePlan,     
-                DateTimeOfEvent = new DateTime(2023, 05, 28,15,00,0),
+                CarePlan = p7.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 15, 00, 0),
                 PatientId = p6.Id,
                 UserId = c3.Id,
             });
 
             // Appointments patient 7 manager
-            var ap18 = svc.SchedulePatientCareEvent(new PatientCareEvent        
+            var ap18 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {
-                CarePlan = p7.CarePlan,  
-                DateTimeOfEvent = new DateTime(2023, 05, 28, 15,30,0),
+                CarePlan = p7.CarePlan,
+                DateTimeOfEvent = new DateTime(2023, 05, 28, 15, 30, 0),
                 PatientId = p7.Id,
                 UserId = manager.Id,
-            });   
+            });
 
             // add member 1 to patient 1 family
             svc.AddPatientFamilyMember(p1.Id, m1.Id, true);

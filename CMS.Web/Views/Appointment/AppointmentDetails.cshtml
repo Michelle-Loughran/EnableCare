@@ -10,43 +10,51 @@
 
 <div class="card rounded shadow mt-4 p-3">
     <h3 class="mb-4">Appointment Details</h3>
-    
-<div class="row">
-    <div class="col-8">
-        <dl class="row">                
-            <dt class=col-sm-5>Id</dt>
-            <dd class="col-sm-7">@Model.Id</dd>
-            <dt class=col-sm-5>Date</dt>
-            <dd class="col-sm-7">@Model.Date.ToShortDateString()</dd>
-            <dt class=col-sm-5>Time</dt>
-            <dd class="col-sm-7">@Model.Time.ToShortTimeString()</dd>
-            <dt class=col-sm-5>Carer</dt>
-            <dd class="col-sm-7">@Model.UserId</dd>
-            <dt class=col-sm-5>Patient</dt>
-            <dd class="col-sm-7">@Model.PatientId</dd>
 
-            @foreach (var e in Model.Patient.CareEvents)
-        {
+    <div class="row">
+        <div class="col-8">
+            <dl class="row">
+                @* <dt class=col-sm-5>Id</dt>
+                <dd class="col-sm-7">@Model.Id</dd> *@
+                <dt class=col-sm-5>Date</dt>
+                <dd class="col-sm-7">@Model.Date.ToShortDateString()</dd>
+                <dt class=col-sm-5>Time</dt>
+                <dd class="col-sm-7">@Model.Time.ToShortTimeString()</dd>
+                @* <dt class=col-sm-5>Carer</dt>
+                <dd class="col-sm-7">@Model.UserId</dd> *@
+                <dt class=col-sm-5>Carer Name</dt>
+                <dd class="col-sm-7">@Model.User.Name</dd>
+                @* <dt class=col-sm-5>Patient</dt>
+                <dd class="col-sm-7">@Model.PatientId</dd> *@
+                <dt class=col-sm-5>Patient Name</dt>
+                <dd class="col-sm-7">@Model.Patient.Name</dd>
+
+            </dl>
+            @* @foreach (var e in Model.Patient.CareEvents)
+            {
             <tr>
-                <td>@e.DateTimeOfEvent</td>
-                <td>@e.User.Name</td>
-                <td>@(e.DateTimeCompleted == DateTime.MinValue ? "No" : "Yes") </td> 
-                <td>                    
-                    <a asp-condition="@e.UserId == User.GetSignedInUserId() && e.DateTimeCompleted == DateTime.MinValue" asp-roles="manager, carer" asp-controller="PatientCareEvent" asp-action="Complete" asp-route-id="@e.Id">Complete</a>                          
-                    <a asp-condition="e.DateTimeCompleted != DateTime.MinValue" asp-roles="manager, carer" asp-controller="PatientCareEvent" asp-action="Details" asp-route-id="@e.Id">View</a>
-                    <a asp-condition="e.DateTimeCompleted == DateTime.MinValue" asp-roles="manager" asp-controller="PatientCareEvent" asp-action="Delete" asp-route-id="@e.Id">Delete</a>
-                </td>
+            <td>@e.DateTimeOfEvent</td>
+            <td>@e.User.Name</td>
+            <td>@(e.DateTimeCompleted == DateTime.MinValue ? "No" : "Yes") </td>
+            <td>
+            <a asp-condition="@e.UserId == User.GetSignedInUserId() && e.DateTimeCompleted == DateTime.MinValue"
+            asp-roles="manager, carer" asp-controller="PatientCareEvent" asp-action="Complete"
+            asp-route-id="@e.Id">Complete</a>
+            <a asp-condition="e.DateTimeCompleted != DateTime.MinValue" asp-roles="manager, carer"
+            asp-controller="PatientCareEvent" asp-action="Details" asp-route-id="@e.Id">View</a>
+            <a asp-condition="e.DateTimeCompleted == DateTime.MinValue" asp-roles="manager"
+            asp-controller="PatientCareEvent" asp-action="Delete" asp-route-id="@e.Id">Delete</a>
+            </td>
             </tr>
+            } *@
+
+
+
+        </div>
+    </div>
+
+    @section Scripts {
+        @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
         }
-
-
-       
-</div>
-</div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
-

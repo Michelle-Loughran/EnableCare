@@ -27,6 +27,7 @@ namespace CMS.Web.Controllers
 
             return View(pce);
         }
+        
     [Authorize(Roles="carer, manager")]
         public IActionResult Scheduled()
         {

@@ -1,13 +1,5 @@
 @model IList<Appointment>
 
-@functions {
-    public Patient Patient { get; }
-}
-@{
-    var pl = Model;
-    var u = User;
-    var p2 = Patient;
-}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
@@ -16,14 +8,13 @@
 </nav>
       @* @if (User.IsInRole(Role.manager.ToString())) *@
 <div class="card border rounded shadow mt-4 p-4">
-   
-    <div class="d-flex align-items-center justify-content-between">
-         <h3>Appointment List</h3>
-        <a asp-roles="manager" asp-action="AddAppointment" class="btn btn-primary btn-sm">
-            <i class="bi bi-bag-plus-fill me-2" title="Add Appointment"></i>
-            <span>Add Appointment</span>
-        </a>
-    </div>
+     <div class="d-flex align-items-center justify-content-between">
+    <h3>Appointment List</h3>
+    <a asp-roles="manager" asp-action="AddAppointment" class="btn btn-primary btn-sm">
+        <i class="bi bi-bag-plus-fill me-2" title="Add Appointment"></i>
+        <span>Add Appointment</span>
+    </a>
+</div>
 
     <table class="table table-striped">
         <thead>

@@ -70,7 +70,7 @@ public class Patient
 
     [Range(0, 10, ErrorMessage = "The number of calls should be between 1 and 10")]
     public int Calls { get; set; }
-     public string Address => Street + " " + Town + " " + Postcode;
+    public string Address => Street + " " + Town + " " + Postcode;
 
     // Relationships
 
@@ -78,8 +78,10 @@ public class Patient
     public List<PatientCareEvent> CareEvents { get; set; }
     public List<PatientCondition> PatientConditions { get; set; }
     public List<FamilyMember> FamilyMembers { get; set; }
+   
+
     public User User { get; set; } // navigation property
 
     // public int UserId { get; set; }
-   
+
 }

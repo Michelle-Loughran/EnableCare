@@ -28,7 +28,7 @@
   </dl>
   <div class="mt-4">
     <!-- form to submit post request to DeleteConfirm action     --> 
-    <form asp-action="DeleteConfirm" asp-route-id="@Model.Id">
+    <form asp-action="DeleteUser" asp-route-id="@Model.Id">
         <input type="hidden" asp-for="Id" class="form-control"/>
         <button type="submit" class="btn btn-danger" aria-label="delete">Delete</button>
         <a class="btn btn-secondary" asp-action="Details" asp-route-id="@Model.Id" >Cancel</a>

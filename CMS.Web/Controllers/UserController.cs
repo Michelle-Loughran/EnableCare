@@ -310,6 +310,55 @@ namespace CMS.Web.Controllers
         // HTTP GET - Display not authorised and not authenticated pages
         public IActionResult ErrorNotAuthorised() => View();
         public IActionResult ErrorNotAuthenticated() => View();
+        //GET /pupil/delete/{id}
+        public IActionResult Delete(int id)
+        {
+            // retrieve logged in user details
+            var adminman = _svc.GetUser(id);
+
+            // if admin is trying to delete their own account alert and redirect to index
+            if(adminman.Id == id)
+            {
+                Alert("You cannot delete your own account", AlertType.danger);          
+                return RedirectToAction(nameof(Index));
+            }
+
+            // retrieve user
+            var user = _svc.GetUser(id);
+            
+            // if empty redirect to index
+            if (user== null)
+            {
+                Alert("User not found", AlertType.warning);
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Pass to view 
+            return View(user);
+        }
+        
+        //POST /pupil/delete/{id}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirm(int id)
+        {
+            // Delete user and return to Index
+            var deleted = _svc.DeleteUser(id);
+
+            // if unsuccessful, alert and redirect
+            if (deleted)
+            { 
+                    Alert("User deleted.", AlertType.success);
+     
+            }
+            else
+            {
+                Alert("User could not  be deleted", AlertType.warning);           
+            }
+    
+            // if successful, alert and redirect
+            return RedirectToAction(nameof(Index));
+        }
 
         // -------------------------- Helper Methods ------------------------------
 

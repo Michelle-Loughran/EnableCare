@@ -10,11 +10,11 @@ namespace CMS.Web.Controllers
     [Authorize]
     public class PatientCareEventController : BaseController
     {
-        private readonly IPatientService svc;
+        private readonly IPatientService _svc;
 
         public PatientCareEventController()
         {
-            svc = new PatientServiceDb();
+            _svc = new PatientServiceDb();
         }
 
 
@@ -23,7 +23,7 @@ namespace CMS.Web.Controllers
         {
             // load patientcare-events using service and pass to view
             
-            var pce = svc.GetAllPatientCareEvents();
+            var pce = _svc.GetAllPatientCareEvents();
 
             return View(pce);
         }
@@ -34,7 +34,7 @@ namespace CMS.Web.Controllers
             // user will be a manager or a carer
             var userId = User.GetSignedInUserId();
 
-            var scheduled = svc.GetScheduledPatientCareEventsForUser(userId);
+            var scheduled = _svc.GetScheduledPatientCareEventsForUser(userId);
             
             return View(scheduled);
         }
@@ -43,7 +43,7 @@ namespace CMS.Web.Controllers
         // GET /Patient Care Event/details/{id}
         public IActionResult Details(int id)
         {
-            var pce = svc.GetPatientCareEventById(id);
+            var pce = _svc.GetPatientCareEventById(id);
 
             // check if patientcare-events is null and alert/redirect 
             if (pce is null)
@@ -59,7 +59,7 @@ namespace CMS.Web.Controllers
         [Authorize(Roles="manager")]
         public IActionResult Schedule(int id)
         {
-            var patient = svc.GetPatientById(id);
+            var patient = _svc.GetPatientById(id);
             if (patient is null)
             {
                 Alert("Patient does not exist", AlertType.warning);
@@ -75,8 +75,8 @@ namespace CMS.Web.Controllers
             };
 
             //return the new Patient care-event to the view
-            ViewBag.Carers = new SelectList(svc.GetAllCarers(),"Id","Name");
-            ViewBag.Patients = new SelectList(svc.GetAllPatients(),"Id","Name");
+            ViewBag.Carers = new SelectList(_svc.GetAllCarers(),"Id","Name");
+            ViewBag.Patients = new SelectList(_svc.GetAllPatients(),"Id","Name");
             return View(pce);
         }
 
@@ -96,7 +96,7 @@ namespace CMS.Web.Controllers
             if (ModelState.IsValid)
             {
                 // call service Addpatientcareevent method using data in pce
-                svc.SchedulePatientCareEvent(pce);
+                _svc.SchedulePatientCareEvent(pce);
 
                 Alert("Patient-care-event scheduled successfully!", AlertType.warning);
 
@@ -112,7 +112,7 @@ namespace CMS.Web.Controllers
         [Authorize(Roles="carer, manager")]
         public IActionResult Complete(int id)
         {
-            var pce = svc.GetPatientCareEventById(id);
+            var pce = _svc.GetPatientCareEventById(id);
             if (pce is null)
             {
                 Alert("Scheduled Care Event does not exist", AlertType.warning);
@@ -137,7 +137,7 @@ namespace CMS.Web.Controllers
             if (ModelState.IsValid)
             {
                 // call service Addpatientcareevent method using data in pce
-                svc.CompletePatientCareEvent(pce);
+                _svc.CompletePatientCareEvent(pce);
 
                 Alert("Patient-care-event completed successfully!", AlertType.info);
 
@@ -145,7 +145,7 @@ namespace CMS.Web.Controllers
             }
             
             // reload patient and user into model being sent back for validation
-            var ce = svc.GetPatientCareEventById(id);
+            var ce = _svc.GetPatientCareEventById(id);
             pce.Patient = ce.Patient;
             pce.User = ce.User;
 
@@ -157,7 +157,7 @@ namespace CMS.Web.Controllers
         // GET /PatientCareEvent/Delete/{id}
         public IActionResult Delete(int id)
         {
-            var pce = svc.GetPatientCareEventById(id);
+            var pce = _svc.GetPatientCareEventById(id);
 
             // check if patientcare-events is null and alert/redirect 
             if (pce is null)
@@ -173,12 +173,12 @@ namespace CMS.Web.Controllers
         [HttpPost]
         public IActionResult DeleteConfirm(int id)
         {
-            var ce = svc.GetPatientCareEventById(id);
+            var ce = _svc.GetPatientCareEventById(id);
             if (ce is null) 
             {
                 Alert("Patient Care Event Could not be deleted", AlertType.warning); 
             } 
-            svc.DeletePatientCareEvent(id);           
+            _svc.DeletePatientCareEvent(id);           
 
            return RedirectToAction("Details", "PatientCareEvent", new { id = ce.Id });
         }

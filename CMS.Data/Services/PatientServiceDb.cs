@@ -196,7 +196,17 @@ public class PatientServiceDb : IPatientService
         db.SaveChanges();
         return user;
     }
-
+    public bool DeleteUser(int userId)
+    {
+        var u = GetCarerByUserId(userId);
+        if ( u== null)
+        {
+            return false;
+        }
+        db.Users.Remove(u);
+        db.SaveChanges();
+        return true;
+    }
     public string ForgotPassword(string email)
     {
         var user = db.Users.FirstOrDefault(u => u.Email == email);
@@ -595,89 +605,107 @@ public class PatientServiceDb : IPatientService
     }
 
     //  //======================Appointment Management==================================
-     public IList<Appointment> GetAllAppointments(string order = null)
-    {
-        return db.Appointments.ToList();
+//      public IList<Appointment> GetAllAppointments(string order = null)
+//     {
+//         return db.Appointments.ToList();
 
-    } 
-        public Appointment GetAppointmentById(int id)
-    {
-        return db.Appointments
-                    .Include(p => p.Patient)
-                    .Include(p => p.User)
-                    .FirstOrDefault(ap => ap.Id == id);
-    }
-    public Appointment AddAppointment(Appointment a)
-    {
-        var exists = GetAppointmentById(a.Id);
-        if (exists != null)
-        {
-            return null;//Appointment cannot be added as it already exists
-        }
+//     } 
+//         public Appointment GetAppointmentById(int id)
+//     {
+//         return db.Appointments
+//                     .Include(p => p.Patient)
+//                     .Include(p => p.User)
+//                     .FirstOrDefault(ap => ap.Id == id);
+//     }
+//     public Appointment AddAppointment(Appointment a)
+//     {
+//         var exists = GetAppointmentById(a.Id);
+//         if (exists != null)
+//         {
+//             return null;//Appointment cannot be added as it already exists
+//         }
 
-            var patients = GetAllPatients();
-            var users = GetAllCarers();
+//             var patient = GetPatientById(a.PatientId);
+//             var user = GetCarerByUserId(a.UserId);
 
-             if (patients is null || users is null)
-        {
-            return null; 
-            //Appoointment cannot be added as as no such patient or user (carer)
-        }
-        var appointment = new Appointment
-        {
+//              if (patient is null || user is null)
+//         {
+//             return null; 
+//             //Appoointment cannot be added as as no such patient or user (carer)
+//         } 
 
-            Date = a.Date,
-            Time = a.Time ,
-            PatientId = a.PatientId,
-            UserId = a.UserId    
-        };
+//         var appointment = new Appointment
+//         {
+        
+//             Date = a.Date,
+//             Time = a.Time ,
+//             DateTimeCompleted = a.DateTimeCompleted,
+//             PatientId = a.PatientId,
+//             UserId = a.UserId    
+//         };
 
-        // create the appointment and save
-        db.Appointments.Add(a);
-        db.SaveChanges();
-        return a;
-    }    
-    public IList <Appointment> GetAppointmentsForUser(int userId)
-    {
-        return db.Appointments
-            .Include(e => e.User)
-            .Include(e => e.Patient)
-            .Where(app => app.UserId == userId)
-            .ToList();
-    }
+//         // create the appointment and save
+//         db.Appointments.Add(appointment);
+//         db.SaveChanges();
+//         return a;
+//     }    
+//         public Appointment CompleteAppointment(Appointment appointment)
+//     {
+//         var app = GetAppointmentById(appointment.Id);
+//         if (appointment is null)
+//         {
+//             return null; // Careevent  does not exist
+//         }
+
+ 
+//         appointment.DateTimeCompleted = appointment.DateTimeCompleted;
+       
+//         db.SaveChanges();
+//         return appointment;
+//     }
+//     public IList <Appointment> GetAppointmentsForUser(int userId)
+//     {
+//         return db.Appointments
+//             .Include(e => e.User)
+//             .Include(e => e.Patient)
+//             .Where(app => app.UserId == userId)
+//               //TODO.Where(pce => pce.UserId == id && pce.DateTimeCompleted == DateTime.MinValue)
+//             .ToList();
+//     }
     
-        public bool DeleteAppointment(int appointmentId)
-    {
-            //retrieve appointment to delete
-            var appointment = GetAppointmentById(appointmentId);
-            if(appointment == null)
-            {
-                return false;
-            }
-            db.Appointments.Remove(appointment);
-            db.SaveChanges();
-            return true;
-    }
- public Appointment UpdateAppointment(Appointment updated)
-    {
-        // verify the carer exists
-        var appointment = GetAppointmentById(updated.Id);
-        if (appointment == null)
-        {
-            return null;
-        }
+//         public bool DeleteAppointment(int appointmentId)
+//     {
+//             //retrieve appointment to delete
+//             var appointment = GetAppointmentById(appointmentId);
+//             if(appointment == null)
+//             {
+//                 return false;
+//             }
+//             db.Appointments.Remove(appointment);
+//             db.SaveChanges();
+//             return true;
+//     }
+//  public Appointment UpdateAppointment(Appointment updated)
+//     {
+//         // verify the carer exists
+//         var appointment = GetAppointmentById(updated.Id);
+//         if (appointment == null)
+//         {
+//             return null;
+//         }
 
-        // update the information for the appointment and save
-        appointment.User = updated.User;
-        appointment.Patient = updated.Patient;
-        appointment.PatientId = updated.PatientId;
-        appointment.UserId = updated.UserId;
-        appointment.Date    = updated.Date;
-        appointment.Time = updated.Time;
+//         // update the information for the appointment and save
+//         appointment.User = updated.User;
+//         appointment.Patient = updated.Patient;
+//         appointment.PatientId = updated.PatientId;
+//         appointment.UserId = updated.UserId;
+//         appointment.Date    = updated.Date;
+//         appointment.Time = updated.Time;
+//         appointment.DateTimeCompleted = updated.DateTimeCompleted;
 
-        db.SaveChanges();
-        return appointment;
-    }
+//         db.SaveChanges();
+//         return appointment;
+//     }
 
 
 

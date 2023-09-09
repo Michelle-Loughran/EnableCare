@@ -45,9 +45,8 @@
                 <dd class="col-sm-7">@Model.HomeNumber </dd>
                 <dt class="col-sm-5">Qualifications</dt>
                 <dd class="col-sm-7">@Model.Qualifications </dd>
-
         </dl>
-        </dl>
+   </div>
     </div>
 
          <!-- photo -->
@@ -61,7 +60,7 @@
         <a asp-controller="User" asp-action="Index" class="btn btn-primary"><i class="bi bi-list"></i>
             Carer List
         </a>    
-        <a asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary"><i class="bi bi-pen"></i>
+        <a asp-controller="User" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-primary"><i class="bi bi-pen"></i>
             Edit Carer
         </a>  
         <a asp-controller="User" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-primary"><i class = "bi bi-trash"></i>

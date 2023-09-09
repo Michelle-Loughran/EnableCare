@@ -1,10 +1,10 @@
-@model Appointment
+@model PatientCareEvent 
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-        <li class="breadcrumb-item"><a asp-controller="Appointment" asp-action="Index">Appointments</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Delete Appoinment Details</li>
+        <li class="breadcrumb-item"><a asp-controller="Patient" asp-action="Details" asp-route-id="@Model.Patient.Id">@Model.Patient.Name</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Delete CareEvent</li>
     </ol>
 </nav>
 <div class="card rounded shadow p-4">
@@ -20,10 +20,10 @@
     <dd class="col-8 pb-1">@Model.Patient.Surname</dd>
 
     <dt class="col-4 pb-1">Date</dt>
-    <dd class="col-8 pb-1">@Model.Date</dd>
+    <dd class="col-8 pb-1">@Model.DateTimeOfEvent</dd>
 
-    <dt class="col-4 pb-1">Time</dt>
-    <dd class="col-8 pb-1">@Model.Time</dd>
+    <dt class="col-4 pb-1">Issues</dt>
+    <dd class="col-8 pb-1">@Model.Issues</dd>
        
   </dl>
   
@@ -32,7 +32,7 @@
     <form asp-action="DeleteConfirm" asp-route-id="@Model.Id">
         <input type="hidden" asp-for="Id" class="form-control"/>
         <button type="submit" class="btn btn-danger" aria-label="delete">Delete</button>
-        <a class="btn btn-secondary" asp-controller="Appointment" asp-action="Index" asp-route-id="@Model.Id" >Cancel</a>
+        <a class="btn btn-secondary" asp-controller="Patient" asp-action="Details" asp-route-id="@Model.Id" >Cancel</a>
     </form>
   </div>
 </div>

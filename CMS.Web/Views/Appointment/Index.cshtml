@@ -1,67 +1,63 @@
-@model IList<Appointment>
+@model IList<PatientCareEvent>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Appointments</li>
+        <li class="breadcrumb-item active" aria-current="page">Care Events</li>
     </ol>
 </nav>
-@* @if (User.IsInRole(Role.manager.ToString())) *@
 
+      @* @if (User.IsInRole(Role.manager.ToString())) *@
 <div class="card border rounded shadow p-4">
-    <div class="d-flex align-items-center justify-content-between">
-        <h3>Appointment List</h3>
-        <a asp-roles="manager" asp-action="AddAppointment" class="btn btn-primary btn-sm">
-            <i class="bi bi-bag-plus-fill me-2" title="Add Appointment"></i>
-            <span>Add Appointment</span>
+        <div class="d-flex align-items-center justify-content-between">
+            <h3>Care Event List</h3>
+
+        <!-- add an action link styled as a button to navigate to Create Action -->
+        <a asp-roles="manager" asp-action="Schedule" class="btn btn-primary btn-sm">
+            <i class="bi bi-bag-plus-fill me-2" title="Add Care Event"></i>
+            <span>Add Care Event</span>
         </a>
     </div>
-    <!-- Title bar -->
-
+    </div>
+    
     <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Carer Id</th>
-                @* <th>Carer Name</th> *@
-                <th>Patient Id</th>
-                @* <th>Patient Name</th> *@
-                <th>Actions</th>
-            </tr>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Carer Id</th>
+            @* <th>Carer Name</th> *@
+            <th>Patient Id</th>
+            @* <th>Patient Name</th>  *@
+            <th>Actions</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var app in Model)
-            {
-                <tr>
-                    <td>@app.Date.ToShortDateString()</td>
-                    <td>@app.Time.ToShortTimeString()</td>
-                    <td>@app.UserId</td>
-                    @* <td>@Model.User.Name</td> *@
-                    <td>@app.PatientId</td>
-                    @* <td>@app.Patient.Name</td> *@
-                    <td>
+        @foreach (var pce in Model)
+        {
+            <tr>
+                <td>@pce.DateTimeOfEvent.ToShortDateString()</td>
+                <td>@pce.DateTimeOfEvent.ToShortTimeString()</td>
+                <td>@pce.UserId</td>
+                @* <td>@pce.User.Name</td>  *@
+                <td>@pce.PatientId</td>
+                @* <td>@pce.Patient.Name</td> *@
+                
+                <td class="d-flex gap-1">
+                    <a asp-action="Details" asp-route-id="@pce.Id">
+                        <i class="bi bi-info-circle" title="View Details"></i>
+                    </a>
+                
+                @* @if (User.IsInRole("Admin") || User.IsInRole("Manager"))  *@
 
-                        <a asp-action="AppointmentDetails" asp-route-id="@app.Id">
-                            <i class="bi bi-info-circle" title="View Details"></i>
-                        </a>
-                        @* @if (User.IsInRole("Admin") || User.IsInRole("Manager")) *@
 
-                        <a asp-action="EditAppointment" asp-route-id="@app.Id">
-                            <i class="bi bi-pencil" title="Edit Details"></i>
-                        </a>
-
-                        @* @if (User.IsInRole("Admin") || User.IsInRole("Manager")) *@
-
-                        <a asp-action="Delete" asp-route-id=@app.Id>
-                            <i class="by bi-trash" title="Delete Details"></i>
-                        </a>
-
-                    </td>
-                </tr>
-            }
+                <a asp-roles="manager,admin" asp-action="Delete" asp-route-id=@pce.Id>
+                    <i class="by bi-trash" title="Delete Appointment"></i>
+                </a>
+                </td>
+            </tr>
+        }
         </tbody>
     </table>
 
-</div>
-</div>
+

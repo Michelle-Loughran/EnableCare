@@ -16,6 +16,7 @@ namespace CMS.Data.Services
         User AddUser(string firstname, string surname, string email, string password, Role role);
         User AddUser(User u);
         User Register(User u);
+        bool DeleteUser(int id);
         User UpdateUser(User user);
         User Authenticate(string email, string password);
         string ForgotPassword(string email);
@@ -43,12 +44,13 @@ namespace CMS.Data.Services
         User UpdateCarer(User updated);
 
         //======================Appointment Management==================================
-        IList<Appointment> GetAllAppointments(string order=null);
-        Appointment GetAppointmentById(int id);
-        IList <Appointment>  GetAppointmentsForUser(int id);
-        Appointment AddAppointment(Appointment a);
-        bool DeleteAppointment(int appointmentId);
-        Appointment UpdateAppointment(Appointment updated);
+        // IList<Appointment> GetAllAppointments(string order=null);
+        // Appointment GetAppointmentById(int id);
+        // IList <Appointment>  GetAppointmentsForUser(int id);
+        // Appointment AddAppointment(Appointment a);
+        // bool DeleteAppointment(int appointmentId);
+        // Appointment UpdateAppointment(Appointment updated);
+        // Appointment CompleteAppointment(Appointment appointment);
          //======================CareEvent Management==================================
         IList<PatientCareEvent> GetAllPatientCareEvents(string order=null);
         IList<PatientCareEvent> GetScheduledPatientCareEventsForUser(int userId);

@@ -389,16 +389,30 @@ namespace CMS.Data.Services
                 Description = " Arthritis is a common condition that causes pain and inflammation in a joint or joints. Arthritis affects people of all ages, including children. Osteoarthritis and rheumatoid arthritis are the 2 most common types of arthritis."
             });
             // https://www.nhs.uk/conditions/arthritis/     
-
-
             var con3 = svc.AddCondition(new Condition
+            {
+
+                Name = "Alzheimer's Disease",
+                Description = "Alzheimer's disease (AD) is a neurodegenerative disease that usually starts slowly and progressively worsens,[2] and is the cause of 60–70% of cases of dementia.[2][10] The most common early symptom is difficulty in remembering recent events.[1] As the disease advances, symptoms can include problems with language, disorientation (including easily getting lost), mood swings, loss of motivation, self-neglect, and behavioral issues.[2] As a person's condition declines, they often withdraw from family and society.[11] Gradually, bodily functions are lost, ultimately leading to death. Although the speed of progression can vary, the typical life expectancy following diagnosis is three to nine years."
+            });
+            // https://en.wikipedia.org/wiki/Alzheimer%27s_disease
+
+            var con4 = svc.AddCondition(new Condition
             {
                 Name = "Heart Disease",
                 Description = " Coronary heart disease is the term that describes what happens when your heart's blood supply is blocked or interrupted by a build-up of fatty substances in the coronary arteries.."
             });
 
             svc.AddPatientCondition(p1.Id, con1.Id, "Severe", DateTime.Now);
-            svc.AddPatientCondition(p1.Id, con2.Id, "Moderate", DateTime.Now);
+            svc.AddPatientCondition(p2.Id, con2.Id, "Moderate", DateTime.Now);
+            svc.AddPatientCondition(p3.Id, con1.Id, "Severe", DateTime.Now);
+            svc.AddPatientCondition(p4.Id, con2.Id, "Severe", DateTime.Now);
+            svc.AddPatientCondition(p5.Id, con3.Id, "Moderate", DateTime.Now);
+            svc.AddPatientCondition(p6.Id, con3.Id, "Severe", DateTime.Now);
+            svc.AddPatientCondition(p7.Id, con4.Id, "Severe", DateTime.Now);
+            svc.AddPatientCondition(p8.Id, con4.Id, "Moderate", DateTime.Now);
+            svc.AddPatientCondition(p9.Id, con4.Id, "Severe", DateTime.Now);
+            svc.AddPatientCondition(p10.Id, con3.Id, "Moderate", DateTime.Now);
 
 
 
@@ -436,86 +450,96 @@ namespace CMS.Data.Services
             });
 
             // ============== Schedule CareEvents APPOINTMENTS =================
-            var appointment1 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(7, 0, 0),
-                PatientId = p1.Id,
-                UserId = manager.Id,
+            // var appointment1 = svc.AddAppointment(new Appointment
+            // {
 
-            });
-            var appointment2 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(7, 30, 0),
-                PatientId = p2.Id,
-                UserId = c2.Id,
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(7, 0, 0),
+            //     PatientId = p1.Id,
+            //     UserId = manager.Id,
 
-            });
-            var appointment3 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(8, 00, 0),
-                PatientId = p3.Id,
-                UserId = c2.Id,
+            // });
+            // var appointment2 = svc.AddAppointment(new Appointment
+            // {
 
-            });
-            var appointment4 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(8, 30, 0),
-                PatientId = p4.Id,
-                UserId = c2.Id,
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(7, 30, 0),
+            //     PatientId = p2.Id,
+            //     UserId = c2.Id,
 
-            });
-            var appointment5 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(9, 0, 0),
-                PatientId = p5.Id,
-                UserId = c2.Id,
+            // });
+            // var appointment3 = svc.AddAppointment(new Appointment
+            // {
 
-            });
-            var appointment6 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(9, 30, 0),
-                PatientId = p6.Id,
-                UserId = c3.Id,
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(8, 00, 0),
+            //     PatientId = p3.Id,
+            //     UserId = c2.Id,
 
-            });
-            var appointment7 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(10, 00, 0),
-                PatientId = p7.Id,
-                UserId = c3.Id,
+            // });
+            // var appointment4 = svc.AddAppointment(new Appointment
+            // {
 
-            });
-            var appointment8 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(10, 30, 0),
-                PatientId = p8.Id,
-                UserId = c3.Id,
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(8, 30, 0),
+            //     PatientId = p4.Id,
+            //     UserId = c2.Id,
 
-            });
-            var appointment9 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(11, 00, 0),
-                PatientId = p9.Id,
-                UserId = c3.Id,
+            // });
+            // var appointment5 = svc.AddAppointment(new Appointment
+            // {
 
-            });
-            var appointment10 = svc.AddAppointment(new Appointment
-            {
-                Date = new DateOnly(2023, 05, 28),
-                Time = new TimeOnly(11, 30, 0),
-                PatientId = p10.Id,
-                UserId = c3.Id,
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(9, 0, 0),
+            //     PatientId = p5.Id,
+            //     UserId = c2.Id,
 
-            });
+            // });
+            // var appointment6 = svc.AddAppointment(new Appointment
+            // {
+
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(9, 30, 0),
+            //     PatientId = p6.Id,
+            //     UserId = c3.Id,
+
+            // });
+            // var appointment7 = svc.AddAppointment(new Appointment
+            // {
+
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(10, 00, 0),
+            //     PatientId = p7.Id,
+            //     UserId = c3.Id,
+
+            // });
+            // var appointment8 = svc.AddAppointment(new Appointment
+            // {
+
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(10, 30, 0),
+            //     PatientId = p8.Id,
+            //     UserId = c3.Id,
+
+            // });
+            // var appointment9 = svc.AddAppointment(new Appointment
+            // {
+
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(11, 00, 0),
+            //     PatientId = p9.Id,
+            //     UserId = c3.Id,
+
+            // });
+            // var appointment10 = svc.AddAppointment(new Appointment
+            // {
+
+            //     Date = new DateOnly(2023, 05, 28),
+            //     Time = new TimeOnly(11, 30, 0),
+            //     PatientId = p10.Id,
+            //     UserId = c3.Id,
+
+            // });
             // Appointments patient 1 carer 1
             var ap1 = svc.SchedulePatientCareEvent(new PatientCareEvent
             {

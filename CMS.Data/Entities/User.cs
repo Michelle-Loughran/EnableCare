@@ -62,7 +62,10 @@ public class User
     [Url]
     public string PhotoUrl { get; set; }
   
-    //public List<Appointment> Appointments { get; set; }
+    public List<PatientCareEvent> CareEvents { get; set; }
+    public List<PatientCondition> PatientConditions { get; set; }
+    public List<FamilyMember> FamilyMembers { get; set; 
 
+}
 }
 

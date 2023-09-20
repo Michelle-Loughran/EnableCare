@@ -234,7 +234,19 @@ namespace CMS.Web.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
+        // GET /user/details/{id}
+        public IActionResult Details(int id)
+        { 
+            // retrieve the patient with specified id from the service
+            var user = _svc.GetUser(id);
+      
+            // check if patient is null and alert/redirect 
+            if (user == null) {
+                Alert("User Does not Exist", AlertType.warning);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(user);
+        }
         // HTTP POST - Logout action
         [Authorize]
         [HttpPost]

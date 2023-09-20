@@ -3,61 +3,48 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Care Events</li>
+        <li class="breadcrumb-item active" aria-current="page">Appointments</li>
     </ol>
 </nav>
-
-      @* @if (User.IsInRole(Role.manager.ToString())) *@
+@* @if (User.IsInRole(Role.manager.ToString())) *@
 <div class="card border rounded shadow p-4">
-        <div class="d-flex align-items-center justify-content-between">
-            <h3>Care Event List</h3>
-
+    <div class="d-flex align-items-center justify-content-between">
+        <h3>Appointment List</h3>
         <!-- add an action link styled as a button to navigate to Create Action -->
         <a asp-roles="manager" asp-action="Schedule" class="btn btn-primary btn-sm">
             <i class="bi bi-bag-plus-fill me-2" title="Add Care Event"></i>
             <span>Add Care Event</span>
         </a>
     </div>
-    </div>
-    
+
     <table class="table table-striped">
         <thead>
-        <tr>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Carer Id</th>
-            @* <th>Carer Name</th> *@
-            <th>Patient Id</th>
-            @* <th>Patient Name</th>  *@
-            <th>Actions</th>
-        </tr>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Carer Id</th>
+                <th>Patient Id</th>
+                <th>Actions</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var pce in Model)
-        {
-            <tr>
-                <td>@pce.DateTimeOfEvent.ToShortDateString()</td>
-                <td>@pce.DateTimeOfEvent.ToShortTimeString()</td>
-                <td>@pce.UserId</td>
-                @* <td>@pce.User.Name</td>  *@
-                <td>@pce.PatientId</td>
-                @* <td>@pce.Patient.Name</td> *@
-                
-                <td class="d-flex gap-1">
-                    <a asp-action="Details" asp-route-id="@pce.Id">
-                        <i class="bi bi-info-circle" title="View Details"></i>
-                    </a>
-                
-                @* @if (User.IsInRole("Admin") || User.IsInRole("Manager"))  *@
-
-
-                <a asp-roles="manager,admin" asp-action="Delete" asp-route-id=@pce.Id>
-                    <i class="by bi-trash" title="Delete Appointment"></i>
-                </a>
-                </td>
-            </tr>
-        }
+            @foreach (var pce in Model)
+            {
+                <tr>
+                    <td>@pce.DateTimeOfEvent.ToShortDateString()</td>
+                    <td>@pce.DateTimeOfEvent.ToShortTimeString()</td>
+                    <td>@pce.UserId</td>
+                    <td>@pce.PatientId</td>
+                    <td class="d-flex gap-1">
+                        <a asp-action="Details" asp-route-id="@pce.Id">
+                            <i class="bi bi-info-circle" title="View Details"></i>
+                        </a>
+                        <a asp-roles="manager,admin" asp-action="Delete" asp-route-id=@pce.Id>
+                            <i class="by bi-trash" title="Delete Appointment"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
-
-
+</div>

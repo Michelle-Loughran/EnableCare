@@ -4,6 +4,34 @@
     <ProjectReference Include="..\CMS.Data\CMS.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Views\Appointment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Views\Appointment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Appointment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Appointment\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Appointment\Complete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\Schedule.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\Scheduled.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\_CareEvents.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Appointment\_Conditions.cshtml" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>disable</Nullable>

@@ -6,6 +6,10 @@ namespace CMS.Data.Entities;
 public class PatientCareEvent 
 {
     public int Id { get; set; }
+    public string PFName { get; set; }
+    public string PSName { get; set; } 
+    public string UFName { get; set; } 
+    public string USName { get; set; } 
 
     [DisplayName("Scheduled For")]
     public DateTime DateTimeOfEvent { get; set; } = DateTime.Now;
@@ -29,6 +33,7 @@ public class PatientCareEvent
     // the carer who performed the care event
     public int UserId { get; set; }
     public User User { get; set; }
+
 
 
 }

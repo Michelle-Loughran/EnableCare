@@ -1,10 +1,24 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
+﻿@model PrivacyViewModel
+<style>
+img {
+  width: 80%;
 }
-
-<h1>@ViewData["Title"]</h1>
+</style>
 <div class="card rounded shadow p-4">
-<div class="text-left">
-<p>Use this page to detail your site's privacy policy.</p>
-</div>
+
+    <div class="card-header bg-info mb-3">
+        <h2>@Model.Title</h2>
+    </div>
+    <div class="card-body">
+        <div class="card-body">
+            <h5 class="card-title">Privacy Policy</h5>
+            <p><em>@Model.Message</em></p>
+        </div>
+          <p class="lead">
+            <div class="card rounded shadow p-4">
+    <img src = "/images/female-caregiver-helping-senior-man-picture-id669885088.jpg" />
+
+    </div>
+
+  </div>
 </div>

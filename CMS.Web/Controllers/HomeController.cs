@@ -23,13 +23,18 @@ public class HomeController : Controller
         {
             Title = "About",
             Message = "For MScProject, This Project aims to illustrate a Carer / Patient Management System.",
+           
             Formed = new DateTime(2023, 05, 24)
         };
         return View(about);
     }
     public IActionResult Privacy()
-    {
-        return View();
+    {  var privacy = new PrivacyViewModel
+        {
+            Title = "Privacy",
+            Message = "This pages details the company privacy policy."
+        };
+        return View(privacy);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

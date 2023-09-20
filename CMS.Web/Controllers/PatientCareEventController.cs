@@ -68,7 +68,7 @@ namespace CMS.Web.Controllers
 
             // display blank form to create a carer
             var pce = new PatientCareEvent
-            {
+            {   
                 Patient = patient,
                 PatientId = patient.Id,                              
                 CarePlan = patient.CarePlan,                
@@ -76,15 +76,14 @@ namespace CMS.Web.Controllers
 
             //return the new Patient care-event to the view
             ViewBag.Carers = new SelectList(_svc.GetAllCarers(),"Id","Name");
-            ViewBag.Patients = new SelectList(_svc.GetAllPatients(),"Id","Name");
-            return View(pce);
+            return View("Schedule",pce);
         }
 
         // POST: /patientcareevent/schedule/patientId   
         [ValidateAntiForgeryToken]
         [HttpPost]
         [Authorize(Roles="manager")]
-        public IActionResult Schedule(int patientId, [Bind("DateTimeOfEvent, CarePlan, PatientId, UserId")] PatientCareEvent pce)
+        public IActionResult Schedule(int patientId, PatientCareEvent pce)
         {    // Check patient care event being passed in has Id preset before adding properties
             if (pce == null)
             {
@@ -100,9 +99,11 @@ namespace CMS.Web.Controllers
 
                 Alert("Patient-care-event scheduled successfully!", AlertType.warning);
 
-                return RedirectToAction(nameof(Details), "Patient", new { Id = pce.PatientId });
+                return RedirectToAction(nameof(Details), "PatientCareEvent", new { Id = pce.PatientId });
             }
-
+            // reload patient
+            pce.Patient = _svc.GetPatientById(pce.PatientId);
+            ViewBag.Carers = new SelectList(_svc.GetAllCarers(),"Id","Name");
             // redisplay the form for editing as there are validation errors
             return View(pce);
         }

@@ -3,7 +3,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-        <li class="breadcrumb-item"><a asp-controller="PatientCareEvent" asp-action="Index">PatientCareEvent</a></li>
+        <li class="breadcrumb-item"><a asp-controller="PatientCareEvent" asp-action="Index">Patient CareEvents</a></li>
         <li class="breadcrumb-item active" aria-current="page">Care-Plan Details</li>
     </ol>
 </nav>
@@ -30,12 +30,12 @@
 
         <div class="mt-3">
             <label asp-for="DateTimeOfEvent" class="form-label"></label>
-            <input readonly asp-for="DateTimeOfEvent" class="form-control" ></input>           
+            <input readonly asp-for="DateTimeOfEvent" class="form-control"></input>           
         </div>
         
         <div class="mt-3">
             <label asp-for="DateTimeCompleted" class="form-label"></label>
-            <input asp-for="DateTimeCompleted" class="form-control" ></input>
+            <input asp-for="DateTimeCompleted" class="form-control"></input>
             <span asp-validation-for="DateTimeCompleted" class="text-danger"></span>
         </div>
 

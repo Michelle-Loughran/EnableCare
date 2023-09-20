@@ -23,7 +23,7 @@ public class PatientServiceTests
             var users = svc.GetUsers();
 
             // assert
-            Assert.Equal(0, users.Count);
+            Assert.Empty(users);
         }
         
         [Fact]
@@ -222,7 +222,7 @@ public class PatientServiceTests
         var patients = svc.GetAllPatients();
 
         // assert
-        Assert.Equal(0, patients.Count);
+        Assert.Empty(patients);
     }
 
     [Fact]
@@ -403,7 +403,7 @@ public class PatientServiceTests
         // act
         var carers = svc.GetAllCarers();
         // assert
-        Assert.Equal(0, carers.Count);
+        Assert.Empty(carers);
     }
 
     [Fact]
